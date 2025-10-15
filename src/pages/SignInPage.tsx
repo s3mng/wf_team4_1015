@@ -1,17 +1,50 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 
 const SignInPage = () => {
-  const [count, setCount] = useState(0);
+  const [emailId, setEmailId] = useState('');
+  const [password, setPassword] = useState('');
+  const emailDomain = '@abc.com';
+
+  const isButtonDisabled = useMemo(() => {
+    return !emailId || !password;
+  }, [emailId, password]);
 
   return (
-    <div>
-      <p>Hello SignInPage!</p>
-      <button
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        onClick={() => setCount((count) => count + 1)}
-      >
-        Count is {count}
-      </button>
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-8 space-y-6">
+        <h1 className="text-2xl font-bold text-center">로그인</h1>
+        <div className="space-y-4">
+          <div className="flex items-center w-full border border-gray-300 rounded-md focused-input">
+            <input
+              type="text"
+              placeholder="이메일"
+              value={emailId}
+              onChange={(e) => setEmailId(e.target.value)}
+              className="w-full px-4 py-2 border-none rounded-l-md focus:outline-none"
+            />
+            <span className="px-4 py-2 text-gray-500 rounded-r-md">{emailDomain}</span>
+          </div>
+          <input
+            type="password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focused-input"
+          />
+        </div>
+        <button
+          disabled={isButtonDisabled}
+          className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-md disabled:bg-gray-400"
+        >
+          로그인
+        </button>
+        <div className="text-sm text-center">
+          <p>
+            계정이 없으면 <Link to="/sign-up" className="text-blue-500 hover:underline">회원가입</Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
