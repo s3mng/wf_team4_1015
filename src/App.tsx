@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Header from './components/Header'
 import MainPage from './pages/MainPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
@@ -6,8 +7,8 @@ import SignUpPage from './pages/SignUpPage';
 const App = () => {
   return (
     <div>
-      { /* TODO: Add a header */ }
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
