@@ -1,8 +1,11 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { signUp } from '../api';
 import { makeSignUpRequestBody } from '../types';
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -25,12 +28,10 @@ const SignUpPage = () => {
       // TODO: for debugging; remove this line later
       console.info("Sign up succeed:", result);
 
-      // TODO 1: send a feedback "signing up completed!"
-      // TODO 2: redirect to the main page
-      // TODO 3: auto login after signing up
+      alert("회원가입이 완료되었어요.")
+      navigate("/");
     } catch (error) {
-      // TODO: for debugging; remove this line later
-      console.error("Sign up failed:", error);
+      alert(error);
     }
   };
 
