@@ -1,4 +1,5 @@
 type authType = "APPLICANT";
+type infoType = "APPLICANT";
 type userRole = "APPLICANT";
 
 type user = {
@@ -6,12 +7,13 @@ type user = {
   userRole: userRole;
 };
 
+
 /* -------------- POST /api/auth/user -------------- */
 
-export type SignUpReqBody = {
+export type SignUpRequestBody = {
   authType: authType;
   info: {
-    type: string;
+    type: infoType;
     name: string;
     email: string;
     password: string;
@@ -19,7 +21,7 @@ export type SignUpReqBody = {
   }
 };
 
-export type SignUpResponse = {
+export type SignUpResult = {
   user: user;
   token: string
 };
@@ -27,12 +29,12 @@ export type SignUpResponse = {
 
 /* ---------- POST /api/auth/user/session ---------- */
 
-export type SignInReqBody = {
+export type SignInRequestBody = {
   email: string;
   password: string
 };
 
-export type SignInResponse = {
+export type SignInResult = {
   user: user;
   token: string
 };
@@ -40,7 +42,7 @@ export type SignInResponse = {
 
 /* ---------------- GET /api/auth/me --------------- */
 
-export type GetMeResponse = {
+export type GetMeResult = {
   id: string;
   password: string;
   createdAt: string;
