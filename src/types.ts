@@ -50,3 +50,11 @@ export type GetMeResult = {
   userRole: userRole;
   email: string
 };
+
+
+/* ------------------- API Error ------------------- */
+
+export type ApiError = {
+  code: string;
+  message: string;
+};
