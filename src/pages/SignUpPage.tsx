@@ -1,4 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { signUp } from '../api';
+import { makeSignUpRequestBody } from '../types';
 
 const SignUpPage = () => {
   const [name, setName] = useState('');
@@ -10,6 +12,27 @@ const SignUpPage = () => {
   const isButtonDisabled = useMemo(() => {
     return !name || !password || !passwordConfirm || !emailId || password !== passwordConfirm;
   }, [name, password, passwordConfirm, emailId]);
+
+  const onSignUpRequested = async () => {
+    const reqBody = makeSignUpRequestBody(name, emailId + emailDomain, password);
+
+    // TODO: for debugging; remove this line later
+    console.info(reqBody);
+
+    try {
+      const result = await signUp(reqBody);
+
+      // TODO: for debugging; remove this line later
+      console.info("Sign up succeed:", result);
+
+      // TODO 1: send a feedback "signing up completed!"
+      // TODO 2: redirect to the main page
+      // TODO 3: auto login after signing up
+    } catch (error) {
+      // TODO: for debugging; remove this line later
+      console.error("Sign up failed:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -51,6 +74,7 @@ const SignUpPage = () => {
         <button
           disabled={isButtonDisabled}
           className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-md disabled:bg-gray-400"
+          onClick={onSignUpRequested}
         >
           회원가입
         </button>
