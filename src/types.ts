@@ -1,3 +1,5 @@
+const SUCCESS_CODE = "ok";
+
 type authType = "APPLICANT";
 type infoType = "APPLICANT";
 type userRole = "APPLICANT";
@@ -26,6 +28,23 @@ export type SignUpResult = {
   token: string
 };
 
+export function makeSignUpRequestBody(
+  name: string,
+  email: string,
+  password: string
+): SignUpRequestBody {
+  return {
+    authType: "APPLICANT",
+    info: {
+      type: "APPLICANT",
+      name: name,
+      email: email,
+      password: password,
+      successCode: SUCCESS_CODE
+    }
+  }
+}
+
 
 /* ---------- POST /api/auth/user/session ---------- */
 
@@ -37,6 +56,16 @@ export type SignInRequestBody = {
 export type SignInResult = {
   user: user;
   token: string
+};
+
+export function makeSignInRequestBody(
+  email: string,
+  password: string
+): SignInRequestBody {
+  return {
+    email: email,
+    password: password
+  }
 };
 
 
