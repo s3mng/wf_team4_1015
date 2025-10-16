@@ -1,4 +1,7 @@
+const SUCCESS_CODE = "ok";
+
 type authType = "APPLICANT";
+type infoType = "APPLICANT";
 type userRole = "APPLICANT";
 
 type user = {
@@ -6,12 +9,13 @@ type user = {
   userRole: userRole;
 };
 
+
 /* -------------- POST /api/auth/user -------------- */
 
-export type SignUpReqBody = {
+export type SignUpRequestBody = {
   authType: authType;
   info: {
-    type: string;
+    type: infoType;
     name: string;
     email: string;
     password: string;
@@ -19,32 +23,67 @@ export type SignUpReqBody = {
   }
 };
 
-export type SignUpResponse = {
+export type SignUpResult = {
   user: user;
   token: string
 };
+
+export function makeSignUpRequestBody(
+  name: string,
+  email: string,
+  password: string
+): SignUpRequestBody {
+  return {
+    authType: "APPLICANT",
+    info: {
+      type: "APPLICANT",
+      name: name,
+      email: email,
+      password: password,
+      successCode: SUCCESS_CODE
+    }
+  }
+}
 
 
 /* ---------- POST /api/auth/user/session ---------- */
 
-export type SignInReqBody = {
+export type SignInRequestBody = {
   email: string;
   password: string
 };
 
-export type SignInResponse = {
+export type SignInResult = {
   user: user;
   token: string
+};
+
+export function makeSignInRequestBody(
+  email: string,
+  password: string
+): SignInRequestBody {
+  return {
+    email: email,
+    password: password
+  }
 };
 
 
 /* ---------------- GET /api/auth/me --------------- */
 
-export type GetMeResponse = {
+export type GetMeResult = {
   id: string;
   password: string;
   createdAt: string;
   updatedAt: string;
   userRole: userRole;
   email: string
+};
+
+
+/* ------------------- API Error ------------------- */
+
+export type ApiError = {
+  code: string;
+  message: string;
 };

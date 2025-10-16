@@ -1,15 +1,39 @@
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { signUp } from '../api';
+import { makeSignUpRequestBody } from '../types';
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [emailId, setEmailId] = useState('');
-  const emailDomain = '@abc.com';
+  const emailDomain = '@snu.ac.kr';
 
   const isButtonDisabled = useMemo(() => {
     return !name || !password || !passwordConfirm || !emailId || password !== passwordConfirm;
   }, [name, password, passwordConfirm, emailId]);
+
+  const onSignUpRequested = async () => {
+    const reqBody = makeSignUpRequestBody(name, emailId + emailDomain, password);
+
+    // TODO: for debugging; remove this line later
+    console.info(reqBody);
+
+    try {
+      const result = await signUp(reqBody);
+
+      // TODO: for debugging; remove this line later
+      console.info("Sign up succeed:", result);
+
+      alert("회원가입이 완료되었어요.")
+      navigate("/");
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -51,8 +75,9 @@ const SignUpPage = () => {
         <button
           disabled={isButtonDisabled}
           className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-md disabled:bg-gray-400"
+          onClick={onSignUpRequested}
         >
-          가입
+          회원가입
         </button>
       </div>
     </div>

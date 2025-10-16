@@ -6,7 +6,7 @@ const Header = () => {
       <div className="flex w-full items-center justify-between px-6 py-4 sm:w-screen-sm md:w-screen-md lg:w-screen-lg xl:max-w-screen-xl">
         <Link to="/">
           <h1 className="hover:text-blue-normal cursor-pointer text-xl font-bold text-gray-800 transition-colors duration-150">
-            인턴하샤
+            스누인턴
           </h1>
         </Link>
         <div className="items-center gap-5 xs:flex">
