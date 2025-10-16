@@ -5,7 +5,7 @@ const SignUpPage = () => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [emailId, setEmailId] = useState('');
-  const emailDomain = '@abc.com';
+  const emailDomain = '@snu.ac.kr';
 
   const isButtonDisabled = useMemo(() => {
     return !name || !password || !passwordConfirm || !emailId || password !== passwordConfirm;
