@@ -16,8 +16,8 @@ body,
   font-family: "Pretendard", sans-serif;
 }
 
-.focused-input:focus, .focused-input:focus-within {
+.focused-input:focus,
+.focused-input:focus-within {
   border-color: #3b82f6;
   outline: none;
 }
-
