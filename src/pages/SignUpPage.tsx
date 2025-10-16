@@ -1,10 +1,12 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signUp } from '../api';
+import { useAuth } from '../contexts/AuthContext';
 import { makeSignUpRequestBody } from '../types';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -13,11 +15,21 @@ const SignUpPage = () => {
   const emailDomain = '@snu.ac.kr';
 
   const isButtonDisabled = useMemo(() => {
-    return !name || !password || !passwordConfirm || !emailId || password !== passwordConfirm;
+    return (
+      !name ||
+      !password ||
+      !passwordConfirm ||
+      !emailId ||
+      password !== passwordConfirm
+    );
   }, [name, password, passwordConfirm, emailId]);
 
   const onSignUpRequested = async () => {
-    const reqBody = makeSignUpRequestBody(name, emailId + emailDomain, password);
+    const reqBody = makeSignUpRequestBody(
+      name,
+      emailId + emailDomain,
+      password
+    );
 
     // TODO: for debugging; remove this line later
     console.info(reqBody);
@@ -26,10 +38,12 @@ const SignUpPage = () => {
       const result = await signUp(reqBody);
 
       // TODO: for debugging; remove this line later
-      console.info("Sign up succeed:", result);
+      console.info('Sign up succeed:', result);
 
-      alert("회원가입이 완료되었어요.")
-      navigate("/");
+      // Auto login after sign up
+      await login(result.token);
+      alert('회원가입 완료');
+      navigate('/');
     } catch (error) {
       alert(error);
     }
@@ -69,7 +83,9 @@ const SignUpPage = () => {
               onChange={(e) => setEmailId(e.target.value)}
               className="w-full px-4 py-2 border-none rounded-l-md focus:outline-none"
             />
-            <span className="px-4 py-2 text-gray-500 rounded-r-md">{emailDomain}</span>
+            <span className="px-4 py-2 text-gray-500 rounded-r-md">
+              {emailDomain}
+            </span>
           </div>
         </div>
         <button

@@ -4,10 +4,10 @@ import type {
   SignInRequestBody,
   SignInResult,
   SignUpRequestBody,
-  SignUpResult
-} from "./types";
+  SignUpResult,
+} from './types';
 
-const BASE_URL = "https://api-internhasha.wafflestudio.com";
+const BASE_URL = 'https://api-internhasha.wafflestudio.com';
 
 /**
  * Sends a POST request and processes the response.
@@ -61,7 +61,10 @@ export function signUp(req: SignUpRequestBody): Promise<SignUpResult> {
  * const { user, token } = await signIn();
  */
 export function signIn(req: SignInRequestBody): Promise<SignInResult> {
-  return postJson<SignInRequestBody, SignInResult>('/api/auth/user/session', req);
+  return postJson<SignInRequestBody, SignInResult>(
+    '/api/auth/user/session',
+    req
+  );
 }
 
 /**
@@ -72,8 +75,8 @@ export async function getUserInfo(token: string): Promise<GetMeResult> {
   const res = await fetch(`${BASE_URL}/api/auth/me`, {
     method: 'GET',
     headers: {
-      'Accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   }).catch((err) => {
     console.error('Network error:', err);
