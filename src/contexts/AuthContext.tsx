@@ -1,4 +1,3 @@
-
 import Cookies from 'js-cookie';
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
@@ -22,7 +21,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     if (token) {
       getUserInfo(token)
-        .then(userData => {
+        .then((userData) => {
           if (!cancelled) {
             setUser(userData);
           }
