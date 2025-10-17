@@ -70,7 +70,7 @@ export function makeSignInRequestBody(
 
 export type GetMeResult = {
   id: string;
-  password: string;
+  name: string;
   createdAt: string;
   updatedAt: string;
   userRole: userRole;
