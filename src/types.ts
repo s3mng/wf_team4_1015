@@ -7,6 +7,7 @@ type userRole = 'APPLICANT';
 export type User = {
   id: string;
   userRole: userRole;
+  name: string;
 };
 
 /* -------------- POST /api/auth/user -------------- */
