@@ -7,6 +7,7 @@ type userRole = "APPLICANT";
 type user = {
   id: string;
   userRole: userRole;
+  name: string;
 };
 
 
