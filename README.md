@@ -13,6 +13,6 @@ Open [http://localhost:5173](http://localhost:5173) with your browser to see the
 
 ## Contributors
 
-- [박준영](https://github.com/iamparkj)
-- [이소현](https://github.com/sohyunnlee)
-- [맹준호](https://github.com/s3mng)
+- 박준영 [bloomwayz@snu.ac.kr](bloomwayz@snu.ac.kr)
+- 이소현 [truelove0305@snu.ac.kr](truelove0305@snu.ac.kr)
+- 맹준호 [tommymeang@gmail.com](tommymeang@gmail.com)
