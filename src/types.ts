@@ -4,6 +4,8 @@ type authType = 'APPLICANT';
 type infoType = 'APPLICANT';
 type userRole = 'APPLICANT';
 
+type Domain = 'FINTECH' | 'HEALTHTECH' | 'EDUCATION' | 'ECOMMERCE' | 'FOODTECH' | 'MOBILITY' | 'CONTENTS' | 'B2B' | 'OTHERS'
+
 export type User = {
   id: string;
   userRole: userRole;
@@ -77,6 +79,26 @@ export type GetMeResult = {
   userRole: userRole;
   email: string;
 };
+
+/* ----------------- GET /api/post ----------------- */
+
+export type GetPostsResult = {
+  posts: Post[];
+  paginator: {
+    lastPage: number
+  }
+}
+
+export type Post = {
+  id: string;
+  companyName: string;
+  employmentEndDate: string;
+  positionTitle: string;
+  domain: Domain;
+  slogan: string;
+  headCount: number;
+  isBookmarked: boolean
+}
 
 /* ------------------- API Error ------------------- */
 
