@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { addBookmark, getPosts, removeBookmark } from '../api';
-import { useAuth } from '../contexts/AuthContext';
 import FilterBar, { type FilterState } from '../components/FilterBar';
 import LoginModal from '../components/LoginModal';
 import PostCard from '../components/PostCard';
 import type { Post } from '../types';
 import Cookies from 'js-cookie';
+import { useAuth } from '../contexts/AuthContext';
 
 const STORAGE_KEY_FILTERS = 'mainpage_filters';
 const STORAGE_KEY_PAGE = 'mainpage_page';
@@ -207,7 +207,7 @@ const MainPage = () => {
                 onClick={() => setPage(pageNum)}
                 className={`px-4 py-2 rounded ${
                   page === pageNum
-                    ? 'bg-blue-500 text-white'
+                    ? 'bg-gray-700 text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >

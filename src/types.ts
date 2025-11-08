@@ -123,7 +123,7 @@ export type Post = {
   companyName: string;
   profileImageKey: string;
   location: string;
-  employmentEndDate: string;
+  employmentEndDate: string | null;
   positionTitle: string;
   domain: Domain;
   slogan: string;
