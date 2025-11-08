@@ -18,10 +18,18 @@ function getDDayMessage(endDateString: string): string {
   else return `마감 D-${diffDays}`;
 }
 
-const PostCard = (props: Post) => {
+type PostCardProps = Post & {
+  onBookmarkToggle: (postId: string, currentState: boolean) => void;
+};
+
+const PostCard = (props: PostCardProps) => {
   const bookmarkStatus = props.isBookmarked ? 'on' : 'off';
   const bookmarkSource = `/bookmark_${bookmarkStatus}.svg`;
   const dDayMessage = getDDayMessage(props.employmentEndDate);
+
+  const handleBookmarkClick = () => {
+    props.onBookmarkToggle(props.id, props.isBookmarked);
+  };
 
   return (
     <div
@@ -37,25 +45,29 @@ const PostCard = (props: Post) => {
           />
           <span className="text-xs">{props.companyName}</span>
         </div>
-        <img className="w-[30px]" src={bookmarkSource} alt="" />
+        <button
+          onClick={handleBookmarkClick}
+          className="w-[30px] h-[30px] cursor-pointer hover:opacity-80 transition-opacity"
+          aria-label={props.isBookmarked ? '북마크 해제' : '북마크 추가'}
+        >
+          <img className="w-full h-full" src={bookmarkSource} alt="" />
+        </button>
       </div>
       <div className="px-4 flex flex-col space-y-2">
         <div className="flex place-content-start">
-          <span className="text-md font-bold">{props.positionTitle}</span>
+          <span className="text-md font-bold truncate">{props.positionTitle}</span>
         </div>
         <div className="flex place-content-start">
+          <p className="text-xs leading-[1.5] font-light text-[#5f656f] line-clamp-2">
+            {props.slogan}
+          </p>
+        </div>
+        <div className="flex justify-between items-center mt-auto">
           <div className="flex rounded-sm bg-[#e8ebef]">
             <p className="mx-2 my-1 text-xs">{domainToKorean(props.domain)}</p>
           </div>
-        </div>
-        <div className="flex place-content-end">
           <span className="text-xs">{dDayMessage}</span>
         </div>
-      </div>
-      <div className="px-4 py-4 flex">
-        <p className="text-xs leading-[1.5] font-light text-[#5f656f]">
-          {props.slogan}
-        </p>
       </div>
     </div>
   );
