@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PageButton from '../components/PageButton';
 import PostCard from '../components/PostCard';
 import type { GetPostsResult, Post } from '../types';
 
@@ -22,11 +23,22 @@ const dummyResult: GetPostsResult = {
 };
 
 const MainPage = () => {
-  const [page, setPages] = useState(1);
+  // TODO: Remove hard-wired initializer
+  const [page, setPage] = useState(1);
+  const [res, setRes] = useState<GetPostsResult | null>(dummyResult);
 
-  // const [res, setRes] = useState<Post[] | null>(null);
-  const posts: Post[] = dummyResult.posts;
-  const numPages = dummyResult.paginator.lastPage;
+  // TODO: Uncomment this after `getPosts` implemented
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await getPosts(page);
+  //     setRes(res);
+  //   };
+
+  //   fetchData();
+  // }, [page]);
+
+  const posts = res?.posts ?? [];
+  const numPages = res?.paginator.lastPage ?? 1;
 
   return (
     <div className="py-20 flex justify-center-safe">
@@ -35,6 +47,25 @@ const MainPage = () => {
           {posts.map((post: Post) => (
             <PostCard {...post} />
           ))}
+        </div>
+        <div className="flex gap-4 justify-center">
+          <PageButton
+            content="<"
+            isSelected={false}
+            onClick={() => setPage(page === 1 ? 1 : page - 1)}
+          />
+          {[...Array(numPages)].map((_, i) => (
+            <PageButton
+              content={String(i + 1)}
+              isSelected={i + 1 === page}
+              onClick={() => setPage(i + 1)}
+            />
+          ))}
+          <PageButton
+            content=">"
+            isSelected={false}
+            onClick={() => setPage(page === numPages ? numPages : page + 1)}
+          />
         </div>
       </div>
     </div>
