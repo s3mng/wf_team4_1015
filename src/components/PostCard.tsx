@@ -1,34 +1,30 @@
 import { domainToKorean } from "../domain";
 import type { Post } from "../types";
 
-function getDDay(endDate: string): number {
+function getDDayMessage(endDateString: string): string {
   const today = new Date();
+  const endDate = new Date(endDateString);
+
+  if (today > endDate)
+    return "마감";
+
   today.setHours(0, 0, 0, 0);
+  endDate.setHours(0, 0, 0, 0);
 
-  const targetDate = new Date(endDate);
-  targetDate.setHours(0, 0, 0, 0);
-
-  const diffMs = targetDate.getTime() - today.getTime();
+  const diffMs = endDate.getTime() - today.getTime();
   const msInDay = 1000 * 60 * 60 * 24;
+  const diffDays = Math.round(diffMs / msInDay);
 
-  return Math.round(diffMs / msInDay);
-}
-
-function getDDayMessage(dDay: number): string {
-  if (dDay > 0)
-    return `마감까지 D-${dDay}`
-  else if (dDay === 0)
+  if (diffDays === 0)
     return "오늘 마감!";
   else
-    return "마감";
+    return `마감 D-${diffDays}`;
 }
 
 const PostCard = (props: Post) => {
   const bookmarkStatus = props.isBookmarked ? "on" : "off";
   const bookmarkSource = `../../public/bookmark_${bookmarkStatus}.svg`;
-
-  const dDay = getDDay(props.employmentEndDate);
-  const dDayMessage = getDDayMessage(dDay);
+  const dDayMessage = getDDayMessage(props.employmentEndDate);
 
   return (
     <div key={`card-${props.id}`} className="max-w-sm w-64 h-64 bg-white rounded-2xl border border-[#e8e8e8]">
