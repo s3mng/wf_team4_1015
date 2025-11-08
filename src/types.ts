@@ -90,40 +90,12 @@ export type GetPostsParams = {
   page?: number;
 };
 
-export type GetPostsParams = {
-  positions?: PositionType[];
-  isActive?: boolean;
-  order?: number;
-  domains?: Domain[];
-  page?: number;
-};
-
 export type GetPostsResult = {
   posts: Post[];
   paginator: {
     lastPage: number;
   };
 };
-
-export type PostAuthor = {
-  id: string;
-  name: string;
-  profileImageKey: string;
-};
-
-export type PostTag = {
-  tag: string;
-};
-
-export type PositionType =
-  | 'FRONT'
-  | 'APP'
-  | 'BACKEND'
-  | 'DATA'
-  | 'OTHERS'
-  | 'DESIGN'
-  | 'PLANNER'
-  | 'MARKETING';
 
 export type PostAuthor = {
   id: string;
@@ -157,14 +129,8 @@ export type Post = {
   slogan: string;
   detailSummary: string;
   positionType: PositionType;
-  detailSummary: string;
-  positionType: PositionType;
   headCount: number;
   isBookmarked: boolean;
-  createdAt: string;
-  updatedAt: string;
-  tags: PostTag[];
-  coffeeChatCount: number;
   createdAt: string;
   updatedAt: string;
   tags: PostTag[];

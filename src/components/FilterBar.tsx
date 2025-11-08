@@ -75,10 +75,6 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
     onApply(resetFilters);
   };
 
-  const handleApply = () => {
-    onApply(tempFilters);
-  };
-
   const getPositionLabel = () => {
     if (tempFilters.positions.length === 0) return '직군 필터';
     if (tempFilters.positions.length === 1) {
