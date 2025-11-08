@@ -1,11 +1,12 @@
+import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { addBookmark, getPosts, removeBookmark } from '../api';
 import FilterBar, { type FilterState } from '../components/FilterBar';
 import LoginModal from '../components/LoginModal';
+import PageButton from '../components/PageButton';
 import PostCard from '../components/PostCard';
-import type { Post } from '../types';
-import Cookies from 'js-cookie';
 import { useAuth } from '../contexts/AuthContext';
+import type { Post } from '../types';
 
 const STORAGE_KEY_FILTERS = 'mainpage_filters';
 const STORAGE_KEY_PAGE = 'mainpage_page';
@@ -59,7 +60,7 @@ const MainPage = () => {
   // 로그인/로그아웃 시 1페이지로 리셋
   useEffect(() => {
     setPage(1);
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -72,7 +73,8 @@ const MainPage = () => {
 
         const result = await getPosts(
           {
-            positions: filters.positions.length > 0 ? filters.positions : undefined,
+            positions:
+              filters.positions.length > 0 ? filters.positions : undefined,
             isActive: filters.isActive,
             order: filters.order,
             domains: filters.domains.length > 0 ? filters.domains : undefined,
@@ -90,7 +92,7 @@ const MainPage = () => {
     };
 
     fetchPosts();
-  }, [filters, page, user]);
+  }, [filters, page]);
 
   if (loading) {
     return (
@@ -143,7 +145,10 @@ const MainPage = () => {
     setPage(1); // 필터 변경 시 첫 페이지로 리셋
   };
 
-  const handleBookmarkToggle = async (postId: string, currentState: boolean) => {
+  const handleBookmarkToggle = async (
+    postId: string,
+    currentState: boolean
+  ) => {
     // 로그인 체크
     if (!user) {
       setIsLoginModalOpen(true);
@@ -193,35 +198,27 @@ const MainPage = () => {
               />
             ))}
           </div>
-        {lastPage > 1 && (
-          <div className="flex justify-center gap-2 mt-8">
-            <button
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-            >
-              &lt;
-            </button>
-            {pageNumbers.map((pageNum) => (
-              <button
-                key={pageNum}
-                onClick={() => setPage(pageNum)}
-                className={`px-4 py-2 rounded ${
-                  page === pageNum
-                    ? 'bg-gray-700 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                {pageNum}
-              </button>
-            ))}
-            <button
-              onClick={() => setPage((p) => Math.min(lastPage, p + 1))}
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-            >
-              &gt;
-            </button>
-          </div>
-        )}
+          {lastPage > 1 && (
+            <div className="flex justify-center gap-2 mt-8">
+              <PageButton
+                content={'<'}
+                isSelected={false}
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+              />
+              {pageNumbers.map((pageNum) => (
+                <PageButton
+                  content={`${pageNum}`}
+                  isSelected={page === pageNum}
+                  onClick={() => setPage(pageNum)}
+                />
+              ))}
+              <PageButton
+                content={'>'}
+                isSelected={false}
+                onClick={() => setPage((p) => Math.min(lastPage, p + 1))}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
