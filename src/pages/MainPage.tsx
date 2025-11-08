@@ -59,7 +59,7 @@ const MainPage = () => {
   // 로그인/로그아웃 시 1페이지로 리셋
   useEffect(() => {
     setPage(1);
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -90,7 +90,7 @@ const MainPage = () => {
     };
 
     fetchPosts();
-  }, [filters, page, user]);
+  }, [filters, page]);
 
   if (loading) {
     return (
