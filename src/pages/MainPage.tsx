@@ -207,7 +207,7 @@ const MainPage = () => {
                 onClick={() => setPage(pageNum)}
                 className={`px-4 py-2 rounded ${
                   page === pageNum
-                    ? 'bg-blue-500 text-white'
+                    ? 'bg-gray-700 text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >

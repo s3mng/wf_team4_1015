@@ -16,7 +16,8 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      className="fixed inset-0 flex items-center justify-center z-50"
+      style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
       onClick={onClose}
     >
       <div
@@ -27,18 +28,18 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
         <p className="text-gray-600 mb-6">
           북마크 기능을 사용하려면 로그인이 필요합니다.
         </p>
-        <div className="flex gap-3">
-          <button
-            onClick={onClose}
-            className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-          >
-            취소
-          </button>
+        <div className="flex flex-col gap-3">
           <button
             onClick={handleLogin}
-            className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="w-full px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800"
           >
             로그인
+          </button>
+          <button
+            onClick={onClose}
+            className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+          >
+            뒤로가기
           </button>
         </div>
       </div>

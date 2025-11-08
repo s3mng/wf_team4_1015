@@ -1,7 +1,9 @@
 import { domainToKorean } from '../domain';
 import type { Post } from '../types';
 
-function getDDayMessage(endDateString: string): string {
+function getDDayMessage(endDateString: string | null): string {
+  if (!endDateString) return '상시채용';
+
   const today = new Date();
   const endDate = new Date(endDateString);
 
