@@ -1,10 +1,10 @@
+import type { Domain } from './domain'
+
 const SUCCESS_CODE = 'ok';
 
 type authType = 'APPLICANT';
 type infoType = 'APPLICANT';
 type userRole = 'APPLICANT';
-
-type Domain = 'FINTECH' | 'HEALTHTECH' | 'EDUCATION' | 'ECOMMERCE' | 'FOODTECH' | 'MOBILITY' | 'CONTENTS' | 'B2B' | 'OTHERS'
 
 export type User = {
   id: string;
