@@ -20,7 +20,7 @@ function getDDayMessage(endDateString: string): string {
 
 const PostCard = (props: Post) => {
   const bookmarkStatus = props.isBookmarked ? 'on' : 'off';
-  const bookmarkSource = `../../public/bookmark_${bookmarkStatus}.svg`;
+  const bookmarkSource = `/bookmark_${bookmarkStatus}.svg`;
   const dDayMessage = getDDayMessage(props.employmentEndDate);
 
   return (
@@ -32,7 +32,7 @@ const PostCard = (props: Post) => {
         <div className="flex items-center space-x-3">
           <img
             className="w-[40px] aspect-1/1 object-cover rounded-lg"
-            src="../../public/sample_company.jpg"
+            src="/sample_company.jpg"
             alt=""
           />
           <span className="text-xs">{props.companyName}</span>
