@@ -82,6 +82,14 @@ export type GetMeResult = {
 
 /* ----------------- GET /api/post ----------------- */
 
+export type GetPostsParams = {
+  positions?: PositionType[];
+  isActive?: boolean;
+  order?: number;
+  domains?: Domain[];
+  page?: number;
+};
+
 export type GetPostsResult = {
   posts: Post[];
   paginator: {
@@ -99,7 +107,15 @@ export type PostTag = {
   tag: string;
 };
 
-export type PositionType = 'FRONT' | 'BACK' | 'FULL' | 'DESIGN' | 'PM' | 'DATA';
+export type PositionType =
+  | 'FRONT'
+  | 'APP'
+  | 'BACKEND'
+  | 'DATA'
+  | 'OTHERS'
+  | 'DESIGN'
+  | 'PLANNER'
+  | 'MARKETING';
 
 export type Post = {
   id: string;

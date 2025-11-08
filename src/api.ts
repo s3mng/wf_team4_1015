@@ -1,12 +1,14 @@
 import type {
   ApiError,
   GetMeResult,
+  GetPostsParams,
   GetPostsResult,
   SignInRequestBody,
   SignInResult,
   SignUpRequestBody,
   SignUpResult,
 } from './types';
+import { encodeQueryParams } from './utils';
 
 const BASE_URL = 'https://api-internhasha.wafflestudio.com';
 
@@ -108,14 +110,30 @@ export async function getUserInfo(token: string): Promise<GetMeResult> {
 
 /**
  * @example
- * const { posts, paginator } = await getPosts();
+ * const { posts, paginator } = await getPosts({ positions: ['FRONT'], isActive: false });
+ * const { posts, paginator } = await getPosts({ positions: ['FRONT'] }, 'token-abc');
  */
-export async function getPosts(): Promise<GetPostsResult> {
-  const res = await fetch(`${BASE_URL}/api/post`, {
+export async function getPosts(
+  params: GetPostsParams = {},
+  token?: string
+): Promise<GetPostsResult> {
+  const queryString = encodeQueryParams({ params });
+  const url = queryString
+    ? `${BASE_URL}/api/post?${queryString}`
+    : `${BASE_URL}/api/post`;
+
+  const headers: Record<string, string> = {
+    Accept: 'application/json',
+  };
+
+  // 토큰이 있으면 Authorization 헤더 추가
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const res = await fetch(url, {
     method: 'GET',
-    headers: {
-      Accept: 'application/json',
-    },
+    headers,
   }).catch((err) => {
     console.error('Network error:', err);
     throw new Error('Network error');
@@ -123,6 +141,88 @@ export async function getPosts(): Promise<GetPostsResult> {
 
   // ok
   if (res.ok) return (await res.json()) as GetPostsResult;
+
+  // error
+  let errBody: unknown = undefined;
+  try {
+    errBody = await res.json();
+  } catch (_) {
+    _;
+  }
+
+  const apiErr: ApiError =
+    typeof errBody === 'object' && errBody !== null
+      ? (errBody as ApiError)
+      : { code: String(res.status), message: res.statusText };
+
+  throw Object.assign(new Error(`[${apiErr.code}] ${apiErr.message}`), {
+    status: res.status,
+    ...apiErr,
+  });
+}
+
+/**
+ * @example
+ * await addBookmark('post-id-123', 'token-abc');
+ */
+export async function addBookmark(
+  postId: string,
+  token: string
+): Promise<void> {
+  const res = await fetch(`${BASE_URL}/api/post/${postId}/bookmark`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch((err) => {
+    console.error('Network error:', err);
+    throw new Error('Network error');
+  });
+
+  // ok
+  if (res.ok) return;
+
+  // error
+  let errBody: unknown = undefined;
+  try {
+    errBody = await res.json();
+  } catch (_) {
+    _;
+  }
+
+  const apiErr: ApiError =
+    typeof errBody === 'object' && errBody !== null
+      ? (errBody as ApiError)
+      : { code: String(res.status), message: res.statusText };
+
+  throw Object.assign(new Error(`[${apiErr.code}] ${apiErr.message}`), {
+    status: res.status,
+    ...apiErr,
+  });
+}
+
+/**
+ * @example
+ * await removeBookmark('post-id-123', 'token-abc');
+ */
+export async function removeBookmark(
+  postId: string,
+  token: string
+): Promise<void> {
+  const res = await fetch(`${BASE_URL}/api/post/${postId}/bookmark`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch((err) => {
+    console.error('Network error:', err);
+    throw new Error('Network error');
+  });
+
+  // ok
+  if (res.ok) return;
 
   // error
   let errBody: unknown = undefined;

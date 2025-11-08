@@ -18,10 +18,18 @@ function getDDayMessage(endDateString: string): string {
   else return `마감 D-${diffDays}`;
 }
 
-const PostCard = (props: Post) => {
+type PostCardProps = Post & {
+  onBookmarkToggle: (postId: string, currentState: boolean) => void;
+};
+
+const PostCard = (props: PostCardProps) => {
   const bookmarkStatus = props.isBookmarked ? 'on' : 'off';
   const bookmarkSource = `/bookmark_${bookmarkStatus}.svg`;
   const dDayMessage = getDDayMessage(props.employmentEndDate);
+
+  const handleBookmarkClick = () => {
+    props.onBookmarkToggle(props.id, props.isBookmarked);
+  };
 
   return (
     <div
@@ -37,7 +45,13 @@ const PostCard = (props: Post) => {
           />
           <span className="text-xs">{props.companyName}</span>
         </div>
-        <img className="w-[30px]" src={bookmarkSource} alt="" />
+        <button
+          onClick={handleBookmarkClick}
+          className="w-[30px] h-[30px] cursor-pointer hover:opacity-80 transition-opacity"
+          aria-label={props.isBookmarked ? '북마크 해제' : '북마크 추가'}
+        >
+          <img className="w-full h-full" src={bookmarkSource} alt="" />
+        </button>
       </div>
       <div className="px-4 flex flex-col space-y-2">
         <div className="flex place-content-start">
