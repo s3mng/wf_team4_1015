@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import { DOMAINS, ORDER_OPTIONS, POSITION_CATEGORIES } from '../constants/filters';
+import {
+  DOMAINS,
+  ORDER_OPTIONS,
+  POSITION_CATEGORIES,
+} from '../constants/filters';
 import type { Domain } from '../domain';
 import { domainToKorean } from '../domain';
 import type { PositionType } from '../types';
@@ -138,7 +142,9 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                 <div className="space-y-4">
                   {/* 개발 섹션 */}
                   <div>
-                    <div className="font-bold text-sm mb-2 text-gray-900">개발</div>
+                    <div className="font-bold text-sm mb-2 text-gray-900">
+                      개발
+                    </div>
                     <div className="space-y-2 ml-2">
                       <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                         <input
@@ -201,7 +207,9 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
 
                   {/* 기획 섹션 */}
                   <div>
-                    <div className="font-bold text-sm mb-2 text-gray-900">기획</div>
+                    <div className="font-bold text-sm mb-2 text-gray-900">
+                      기획
+                    </div>
                     <div className="ml-2">
                       <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                         <input
@@ -217,7 +225,9 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
 
                   {/* 디자인 섹션 */}
                   <div>
-                    <div className="font-bold text-sm mb-2 text-gray-900">디자인</div>
+                    <div className="font-bold text-sm mb-2 text-gray-900">
+                      디자인
+                    </div>
                     <div className="ml-2">
                       <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                         <input
@@ -233,7 +243,9 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
 
                   {/* 마케팅 섹션 */}
                   <div>
-                    <div className="font-bold text-sm mb-2 text-gray-900">마케팅</div>
+                    <div className="font-bold text-sm mb-2 text-gray-900">
+                      마케팅
+                    </div>
                     <div className="ml-2">
                       <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                         <input
@@ -306,7 +318,9 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                     <input
                       type="checkbox"
                       checked={tempFilters.domains.length === 0}
-                      onChange={() => setTempFilters((prev) => ({ ...prev, domains: [] }))}
+                      onChange={() =>
+                        setTempFilters((prev) => ({ ...prev, domains: [] }))
+                      }
                       className="w-4 h-4"
                     />
                     <span className="text-sm">전체</span>

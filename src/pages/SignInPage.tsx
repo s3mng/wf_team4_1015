@@ -4,7 +4,8 @@ import { signIn } from '../api';
 import { useAuth } from '../contexts/AuthContext';
 import { makeSignInRequestBody } from '../types';
 
-const SignInPage = () => { //good
+const SignInPage = () => {
+  //good
   const navigate = useNavigate();
   const { login } = useAuth();
   const [emailId, setEmailId] = useState('');

@@ -57,7 +57,9 @@ const PostCard = (props: PostCardProps) => {
       </div>
       <div className="px-4 flex flex-col space-y-2">
         <div className="flex place-content-start">
-          <span className="text-md font-bold truncate">{props.positionTitle}</span>
+          <span className="text-md font-bold truncate">
+            {props.positionTitle}
+          </span>
         </div>
         <div className="flex justify-between items-center mt-auto">
           <div className="flex rounded-sm bg-[#e8ebef]">
