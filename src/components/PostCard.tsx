@@ -1,12 +1,11 @@
-import { domainToKorean } from "../domain";
-import type { Post } from "../types";
+import { domainToKorean } from '../domain';
+import type { Post } from '../types';
 
 function getDDayMessage(endDateString: string): string {
   const today = new Date();
   const endDate = new Date(endDateString);
 
-  if (today > endDate)
-    return "마감";
+  if (today > endDate) return '마감';
 
   today.setHours(0, 0, 0, 0);
   endDate.setHours(0, 0, 0, 0);
@@ -15,19 +14,20 @@ function getDDayMessage(endDateString: string): string {
   const msInDay = 1000 * 60 * 60 * 24;
   const diffDays = Math.round(diffMs / msInDay);
 
-  if (diffDays === 0)
-    return "오늘 마감!";
-  else
-    return `마감 D-${diffDays}`;
+  if (diffDays === 0) return '오늘 마감!';
+  else return `마감 D-${diffDays}`;
 }
 
 const PostCard = (props: Post) => {
-  const bookmarkStatus = props.isBookmarked ? "on" : "off";
+  const bookmarkStatus = props.isBookmarked ? 'on' : 'off';
   const bookmarkSource = `../../public/bookmark_${bookmarkStatus}.svg`;
   const dDayMessage = getDDayMessage(props.employmentEndDate);
 
   return (
-    <div key={`card-${props.id}`} className="max-w-sm w-64 h-64 bg-white rounded-2xl border border-[#e8e8e8]">
+    <div
+      key={`card-${props.id}`}
+      className="max-w-sm w-64 h-64 bg-white rounded-2xl border border-[#e8e8e8]"
+    >
       <div className="px-4 py-4 flex justify-between items-center">
         <div className="flex items-center space-x-3">
           <img
@@ -35,21 +35,13 @@ const PostCard = (props: Post) => {
             src="../../public/sample_company.jpg"
             alt=""
           />
-          <span className="text-xs">
-            {props.companyName}
-          </span>
+          <span className="text-xs">{props.companyName}</span>
         </div>
-        <img
-          className="w-[30px]"
-          src={bookmarkSource}
-          alt=""
-        />
+        <img className="w-[30px]" src={bookmarkSource} alt="" />
       </div>
       <div className="px-4 flex flex-col space-y-2">
         <div className="flex place-content-start">
-          <span className="text-md font-bold">
-            {props.positionTitle}
-          </span>
+          <span className="text-md font-bold">{props.positionTitle}</span>
         </div>
         <div className="flex place-content-start">
           <div className="flex rounded-sm bg-[#e8ebef]">
@@ -57,9 +49,7 @@ const PostCard = (props: Post) => {
           </div>
         </div>
         <div className="flex place-content-end">
-          <span className="text-xs">
-            {dDayMessage}
-          </span>
+          <span className="text-xs">{dDayMessage}</span>
         </div>
       </div>
       <div className="px-4 py-4 flex">
@@ -69,6 +59,6 @@ const PostCard = (props: Post) => {
       </div>
     </div>
   );
-}
+};
 
 export default PostCard;

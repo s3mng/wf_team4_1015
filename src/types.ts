@@ -1,4 +1,4 @@
-import type { Domain } from './domain'
+import type { Domain } from './domain';
 
 const SUCCESS_CODE = 'ok';
 
@@ -85,9 +85,9 @@ export type GetMeResult = {
 export type GetPostsResult = {
   posts: Post[];
   paginator: {
-    lastPage: number
-  }
-}
+    lastPage: number;
+  };
+};
 
 export type Post = {
   id: string;
@@ -97,8 +97,8 @@ export type Post = {
   domain: Domain;
   slogan: string;
   headCount: number;
-  isBookmarked: boolean
-}
+  isBookmarked: boolean;
+};
 
 /* ------------------- API Error ------------------- */
 
