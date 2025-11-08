@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { DOMAINS, ORDER_OPTIONS, POSITION_CATEGORIES } from '../constants/filters';
 import type { Domain } from '../domain';
 import { domainToKorean } from '../domain';
 import type { PositionType } from '../types';
-import { DOMAINS, ORDER_OPTIONS, POSITION_CATEGORIES } from '../constants/filters';
 
 export type FilterState = {
   positions: PositionType[];
