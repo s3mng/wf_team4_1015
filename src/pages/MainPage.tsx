@@ -195,31 +195,23 @@ const MainPage = () => {
           </div>
         {lastPage > 1 && (
           <div className="flex justify-center gap-2 mt-8">
-            <button
+            <PageButton
+              content={"<"}
+              isSelected={false}
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-            >
-              &lt;
-            </button>
+            />
             {pageNumbers.map((pageNum) => (
-              <button
-                key={pageNum}
+              <PageButton
+                content={`${pageNum}`}
+                isSelected={page === pageNum}
                 onClick={() => setPage(pageNum)}
-                className={`px-4 py-2 rounded ${
-                  page === pageNum
-                    ? 'bg-gray-700 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                {pageNum}
-              </button>
+              />
             ))}
-            <button
+            <PageButton
+              content={">"}
+              isSelected={false}
               onClick={() => setPage((p) => Math.min(lastPage, p + 1))}
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-            >
-              &gt;
-            </button>
+            />
           </div>
         )}
         </div>
