@@ -6,8 +6,6 @@ type authType = 'APPLICANT';
 type infoType = 'APPLICANT';
 type userRole = 'APPLICANT';
 
-type Domain = 'FINTECH' | 'HEALTHTECH' | 'EDUCATION' | 'ECOMMERCE' | 'FOODTECH' | 'MOBILITY' | 'CONTENTS' | 'B2B' | 'OTHERS'
-
 export type User = {
   id: string;
   userRole: userRole;
@@ -91,15 +89,36 @@ export type GetPostsResult = {
   };
 };
 
+export type PostAuthor = {
+  id: string;
+  name: string;
+  profileImageKey: string;
+};
+
+export type PostTag = {
+  tag: string;
+};
+
+export type PositionType = 'FRONT' | 'BACK' | 'FULL' | 'DESIGN' | 'PM' | 'DATA';
+
 export type Post = {
   id: string;
+  author: PostAuthor;
   companyName: string;
+  profileImageKey: string;
+  location: string;
   employmentEndDate: string;
   positionTitle: string;
   domain: Domain;
   slogan: string;
+  detailSummary: string;
+  positionType: PositionType;
   headCount: number;
   isBookmarked: boolean;
+  createdAt: string;
+  updatedAt: string;
+  tags: PostTag[];
+  coffeeChatCount: number;
 };
 
 /* ------------------- API Error ------------------- */

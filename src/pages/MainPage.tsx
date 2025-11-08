@@ -1,71 +1,53 @@
-import { useState } from 'react';
-import PageButton from '../components/PageButton';
+import { useEffect, useState } from 'react';
+import { getPosts } from '../api';
 import PostCard from '../components/PostCard';
-import type { GetPostsResult, Post } from '../types';
-
-const dummyPost: Post = {
-  id: 'string',
-  companyName: '레브잇',
-  employmentEndDate: '2025-11-07T07:16:10.893Z',
-  positionTitle: 'React Frontend Developer',
-  domain: 'EDUCATION',
-  slogan:
-    '최신 LLM 오픈 소스 모델과 자체개발 멀티모달 AI를 이용하여 초콜릿 쿠키 업계를 혁신합니다. 최신 LLM 오픈 소스 모델과 자체개발 멀티모달 AI를 이용하여 초콜릿 쿠키 업계를 ...',
-  headCount: 0,
-  isBookmarked: true,
-};
-
-const dummyResult: GetPostsResult = {
-  posts: Array.from({ length: 12 }, () => dummyPost),
-  paginator: {
-    lastPage: 2,
-  },
-};
+import type { Post } from '../types';
 
 const MainPage = () => {
-  // TODO: Remove hard-wired initializer
-  const [page, setPage] = useState(1);
-  const [res, setRes] = useState<GetPostsResult | null>(dummyResult);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // TODO: Uncomment this after `getPosts` implemented
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await getPosts(page);
-  //     setRes(res);
-  //   };
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const result = await getPosts();
+        setPosts(result.posts);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load posts');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   fetchData();
-  // }, [page]);
+    fetchPosts();
+  }, []);
 
-  const posts = res?.posts ?? [];
-  const numPages = res?.paginator.lastPage ?? 1;
+  if (loading) {
+    return (
+      <div className="py-20 flex justify-center">
+        <div className="text-gray-500">로딩 중...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="py-20 flex justify-center">
+        <div className="text-red-500">에러: {error}</div>
+      </div>
+    );
+  }
 
   return (
-    <div className="py-20 flex justify-center-safe">
+    <div className="py-20 flex justify-center">
       <div className="flex flex-col gap-6">
         <div className="grid md:grid-cols-3 gap-6">
           {posts.map((post: Post) => (
-            <PostCard {...post} />
+            <PostCard key={post.id} {...post} />
           ))}
-        </div>
-        <div className="flex gap-4 justify-center">
-          <PageButton
-            content="<"
-            isSelected={false}
-            onClick={() => setPage(page === 1 ? 1 : page - 1)}
-          />
-          {[...Array(numPages)].map((_, i) => (
-            <PageButton
-              content={String(i + 1)}
-              isSelected={i + 1 === page}
-              onClick={() => setPage(i + 1)}
-            />
-          ))}
-          <PageButton
-            content=">"
-            isSelected={false}
-            onClick={() => setPage(page === numPages ? numPages : page + 1)}
-          />
         </div>
       </div>
     </div>

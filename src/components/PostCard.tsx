@@ -41,21 +41,19 @@ const PostCard = (props: Post) => {
       </div>
       <div className="px-4 flex flex-col space-y-2">
         <div className="flex place-content-start">
-          <span className="text-md font-bold">{props.positionTitle}</span>
+          <span className="text-md font-bold truncate">{props.positionTitle}</span>
         </div>
         <div className="flex place-content-start">
+          <p className="text-xs leading-[1.5] font-light text-[#5f656f] line-clamp-2">
+            {props.slogan}
+          </p>
+        </div>
+        <div className="flex justify-between items-center mt-auto">
           <div className="flex rounded-sm bg-[#e8ebef]">
             <p className="mx-2 my-1 text-xs">{domainToKorean(props.domain)}</p>
           </div>
-        </div>
-        <div className="flex place-content-end">
           <span className="text-xs">{dDayMessage}</span>
         </div>
-      </div>
-      <div className="px-4 py-4 flex">
-        <p className="text-xs leading-[1.5] font-light text-[#5f656f]">
-          {props.slogan}
-        </p>
       </div>
     </div>
   );

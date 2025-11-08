@@ -1,6 +1,7 @@
 import type {
   ApiError,
   GetMeResult,
+  GetPostsResult,
   SignInRequestBody,
   SignInResult,
   SignUpRequestBody,
@@ -85,6 +86,43 @@ export async function getUserInfo(token: string): Promise<GetMeResult> {
 
   // ok
   if (res.ok) return (await res.json()) as GetMeResult;
+
+  // error
+  let errBody: unknown = undefined;
+  try {
+    errBody = await res.json();
+  } catch (_) {
+    _;
+  }
+
+  const apiErr: ApiError =
+    typeof errBody === 'object' && errBody !== null
+      ? (errBody as ApiError)
+      : { code: String(res.status), message: res.statusText };
+
+  throw Object.assign(new Error(`[${apiErr.code}] ${apiErr.message}`), {
+    status: res.status,
+    ...apiErr,
+  });
+}
+
+/**
+ * @example
+ * const { posts, paginator } = await getPosts();
+ */
+export async function getPosts(): Promise<GetPostsResult> {
+  const res = await fetch(`${BASE_URL}/api/post`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+    },
+  }).catch((err) => {
+    console.error('Network error:', err);
+    throw new Error('Network error');
+  });
+
+  // ok
+  if (res.ok) return (await res.json()) as GetPostsResult;
 
   // error
   let errBody: unknown = undefined;
