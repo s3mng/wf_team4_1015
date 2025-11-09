@@ -113,7 +113,9 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
           <div className="w-full">
             <button
               onClick={() => setIsPositionOpen(!isPositionOpen)}
-              className={"w-full md:justify-between px-4 py-2 bg-[#e8eBef] rounded-lg hover:bg-gray-300 flex items-center gap-2 font-bold text-md text-[#383b41]"}
+              className={
+                'w-full md:justify-between px-4 py-2 bg-[#e8eBef] rounded-lg hover:bg-gray-300 flex items-center gap-2 font-bold text-md text-[#383b41]'
+              }
             >
               {getPositionLabel()}
               <svg
@@ -135,9 +137,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
             {isPositionOpen && (
               <div className="flex flex-col py-4 space-y-2">
                 {/* 개발 섹션 */}
-                <span className="font-bold text-md">
-                  개발
-                </span>
+                <span className="font-bold text-md">개발</span>
                 <div className="flex flex-col">
                   <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                     <input
@@ -198,9 +198,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                 </div>
 
                 {/* 기획 섹션 */}
-                <span className="font-bold text-md">
-                  기획
-                </span>
+                <span className="font-bold text-md">기획</span>
                 <div>
                   <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                     <input
@@ -214,9 +212,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                 </div>
 
                 {/* 디자인 섹션 */}
-                <span className="font-bold text-md">
-                  디자인
-                </span>
+                <span className="font-bold text-md">디자인</span>
                 <div>
                   <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                     <input
@@ -230,9 +226,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                 </div>
 
                 {/* 마케팅 섹션 */}
-                <span className="font-bold text-md">
-                  마케팅
-                </span>
+                <span className="font-bold text-md">마케팅</span>
                 <div>
                   <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                     <input
@@ -271,7 +265,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
         </div>
 
         <div className="flex space-x-2">
-        {/* 업종 드롭다운 */}
+          {/* 업종 드롭다운 */}
           <div className="relative">
             <button
               onClick={() => setIsDomainOpen(!isDomainOpen)}
