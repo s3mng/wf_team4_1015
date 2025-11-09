@@ -505,7 +505,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
           <div className="ml-auto">
             <button
               onClick={handleReset}
-              className="px-3 py-2 text-gray-700 hover:bg-gray-100 rounded flex items-center gap-2"
+              className="px-3 py-2 text-[#484c53] hover:bg-gray-100 rounded flex items-center gap-2"
               aria-label="필터 초기화"
             >
               <svg
