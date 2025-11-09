@@ -15,4 +15,3 @@ Open [http://localhost:5173](http://localhost:5173) with your browser to see the
 
 - 맹준호 [tommymeang@gmail.com](tommymeang@gmail.com)
 - 박준영 [bloomwayz@snu.ac.kr](bloomwayz@snu.ac.kr)
-- 이소현 [truelove0305@snu.ac.kr](truelove0305@snu.ac.kr)
