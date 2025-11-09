@@ -15,7 +15,9 @@ const Header = () => {
         <div className="items-center gap-5 xs:flex">
           {user ? (
             <>
-              <span className="font-semibold">{user.name}님</span>
+              <Link to="/my-page">
+                <span className="font-semibold">마이페이지</span>
+              </Link>
               <button
                 onClick={logout}
                 className="inline-flex justify-center gap-2 whitespace-nowrap rounded-md font-semibold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-grey-500 hover:bg-grey-200 h-[42px] items-center px-4 py-2"
