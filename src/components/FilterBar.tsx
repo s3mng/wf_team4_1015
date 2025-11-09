@@ -138,7 +138,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
               <div className="flex flex-col py-4 space-y-2">
                 {/* 개발 섹션 */}
                 <span className="font-bold text-md">개발</span>
-                <div className="flex flex-col">
+                <div className="flex flex-col text-[#383b41]">
                   <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                     <input
                       type="checkbox"
@@ -186,7 +186,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                     />
                     <span className="text-md">데이터 개발</span>
                   </label>
-                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded text-[#383b41]">
                     <input
                       type="checkbox"
                       checked={tempFilters.positions.includes('OTHERS')}
@@ -199,8 +199,8 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
 
                 {/* 기획 섹션 */}
                 <span className="font-bold text-md">기획</span>
-                <div>
-                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                <div className="text-[#383b41]">
+                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded text-[#383b41]">
                     <input
                       type="checkbox"
                       checked={tempFilters.positions.includes('PLANNER')}
@@ -213,7 +213,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
 
                 {/* 디자인 섹션 */}
                 <span className="font-bold text-md">디자인</span>
-                <div>
+                <div className="text-[#383b41]">
                   <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                     <input
                       type="checkbox"
@@ -227,7 +227,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
 
                 {/* 마케팅 섹션 */}
                 <span className="font-bold text-md">마케팅</span>
-                <div>
+                <div className="text-[#383b41]">
                   <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                     <input
                       type="checkbox"
@@ -294,7 +294,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
             </button>
             {isDomainOpen && (
               <div className="absolute top-full left-0 bg-white rounded-xl shadow-lg p-4 z-10 min-w-[200px]">
-                <div className="flex flex-col">
+                <div className="flex flex-col text-[#383b41]">
                   {/* 전체 체크박스 */}
                   <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2">
                     <input
@@ -376,7 +376,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
             </button>
             {isStatusOpen && (
               <div className="absolute top-full left-0 bg-white rounded-xl shadow-lg p-4 z-10 min-w-[200px]">
-                <div className="flex flex-col">
+                <div className="flex flex-col text-[#383b41]">
                   <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                     <input
                       type="radio"
@@ -455,7 +455,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
             </button>
             {isOrderOpen && (
               <div className="absolute top-full left-0 bg-white rounded-xl shadow-lg p-4 z-10 min-w-[200px]">
-                <div className="flex flex-col">
+                <div className="flex flex-col text-[#383b41]">
                   {ORDER_OPTIONS.map((option) => (
                     <label
                       key={option.value}
