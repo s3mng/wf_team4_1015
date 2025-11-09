@@ -357,10 +357,10 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
           <div className="relative">
             <button
               onClick={() => setIsStatusOpen(!isStatusOpen)}
-              className={`px-4 py-2 bg-white border rounded hover:bg-gray-50 flex items-center gap-2 text-sm ${
+              className={`px-4 py-2 border rounded-lg hover:bg-gray-50 flex items-center gap-2 text-[#484c53] text-sm ${
                 hasStatusFilter
-                  ? 'border-gray-500 font-bold text-gray-700'
-                  : 'border-gray-300'
+                  ? 'border-[#9fa9b9] font-semibold bg-[#f1f2f5]'
+                  : 'border-[#f1f2f5]'
               }`}
             >
               {getStatusLabel()}
@@ -381,8 +381,8 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
               </svg>
             </button>
             {isStatusOpen && (
-              <div className="absolute top-full left-0 mt-2 bg-white border border-gray-300 rounded shadow-lg p-4 z-10 min-w-[200px]">
-                <div className="space-y-2">
+              <div className="absolute top-full left-0 bg-white rounded-xl shadow-lg p-4 z-10 min-w-[200px]">
+                <div className="flex flex-col">
                   <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                     <input
                       type="radio"
@@ -408,13 +408,13 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                     <span className="text-sm">모집중</span>
                   </label>
                 </div>
-                <div className="flex gap-2 mt-4 pt-3 border-t border-gray-200">
+                <div className="w-full flex gap-2 mt-2 pt-3 place-content-end">
                   <button
                     onClick={() => {
                       setTempFilters((prev) => ({ ...prev, isActive: false }));
                       setIsStatusOpen(false);
                     }}
-                    className="flex-1 px-3 py-1 bg-gray-200 text-gray-700 rounded text-sm hover:bg-gray-300"
+                    className="px-4 py-2 bg-[#f1f2f5] text-[#777f8b] text-sm font-semibold rounded-lg hover:bg-gray-300"
                   >
                     초기화
                   </button>
@@ -423,7 +423,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                       onApply(tempFilters);
                       setIsStatusOpen(false);
                     }}
-                    className="flex-1 px-3 py-1 bg-gray-700 text-white rounded text-sm hover:bg-gray-800"
+                    className="px-4 py-2 bg-[#484c53] text-white text-sm font-semibold rounded-lg hover:bg-gray-800"
                   >
                     적용
                   </button>
