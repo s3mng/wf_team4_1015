@@ -28,7 +28,6 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
   // 필터가 적용되었는지 확인하는 함수
-  const hasPositionFilter = filters.positions.length > 0;
   const hasDomainFilter = filters.domains.length > 0;
   const hasStatusFilter = filters.isActive;
   const hasOrderFilter = filters.order !== 0;
@@ -107,18 +106,16 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
   };
 
   return (
-    <div className="w-full bg-white border-b border-gray-200 py-4">
-      <div className="max-w-screen-xl mx-auto px-6">
-        <div className="flex items-center gap-3 flex-wrap">
-          {/* 직군 필터 드롭다운 */}
-          <div className="relative">
+    <div className="w-full py-4">
+      <div className="max-w-screen-lg flex flex-col mx-auto px-6 space-y-4">
+        <div className="flex items-center">
+          {/* 직군 필터 아코디언 */}
+          <div className="w-full">
             <button
               onClick={() => setIsPositionOpen(!isPositionOpen)}
-              className={`px-4 py-2 bg-white border rounded hover:bg-gray-50 flex items-center gap-2 ${
-                hasPositionFilter
-                  ? 'border-gray-500 font-bold text-gray-700'
-                  : 'border-gray-300'
-              }`}
+              className={
+                'w-full md:justify-between px-4 py-2 bg-[#e8eBef] rounded-lg hover:bg-gray-300 flex items-center gap-2 font-bold text-md text-[#383b41]'
+              }
             >
               {getPositionLabel()}
               <svg
@@ -138,134 +135,117 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
               </svg>
             </button>
             {isPositionOpen && (
-              <div className="absolute top-full left-0 mt-2 bg-white border border-gray-300 rounded shadow-lg p-4 z-10 min-w-[250px]">
-                <div className="space-y-4">
-                  {/* 개발 섹션 */}
-                  <div>
-                    <div className="font-bold text-sm mb-2 text-gray-900">
-                      개발
-                    </div>
-                    <div className="space-y-2 ml-2">
-                      <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
-                        <input
-                          type="checkbox"
-                          checked={POSITION_CATEGORIES.DEV.values.every((v) =>
-                            tempFilters.positions.includes(v)
-                          )}
-                          onChange={() => handleCategoryToggle('DEV')}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm">전체</span>
-                      </label>
-                      <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
-                        <input
-                          type="checkbox"
-                          checked={tempFilters.positions.includes('FRONT')}
-                          onChange={() => handlePositionToggle('FRONT')}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm">프론트엔드 개발</span>
-                      </label>
-                      <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
-                        <input
-                          type="checkbox"
-                          checked={tempFilters.positions.includes('BACKEND')}
-                          onChange={() => handlePositionToggle('BACKEND')}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm">서버·백엔드 개발</span>
-                      </label>
-                      <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
-                        <input
-                          type="checkbox"
-                          checked={tempFilters.positions.includes('APP')}
-                          onChange={() => handlePositionToggle('APP')}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm">앱 개발</span>
-                      </label>
-                      <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
-                        <input
-                          type="checkbox"
-                          checked={tempFilters.positions.includes('DATA')}
-                          onChange={() => handlePositionToggle('DATA')}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm">데이터 개발</span>
-                      </label>
-                      <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
-                        <input
-                          type="checkbox"
-                          checked={tempFilters.positions.includes('OTHERS')}
-                          onChange={() => handlePositionToggle('OTHERS')}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm">기타 분야</span>
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* 기획 섹션 */}
-                  <div>
-                    <div className="font-bold text-sm mb-2 text-gray-900">
-                      기획
-                    </div>
-                    <div className="ml-2">
-                      <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
-                        <input
-                          type="checkbox"
-                          checked={tempFilters.positions.includes('PLANNER')}
-                          onChange={() => handleCategoryToggle('PLANNER')}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm">전체</span>
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* 디자인 섹션 */}
-                  <div>
-                    <div className="font-bold text-sm mb-2 text-gray-900">
-                      디자인
-                    </div>
-                    <div className="ml-2">
-                      <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
-                        <input
-                          type="checkbox"
-                          checked={tempFilters.positions.includes('DESIGN')}
-                          onChange={() => handleCategoryToggle('DESIGN')}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm">전체</span>
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* 마케팅 섹션 */}
-                  <div>
-                    <div className="font-bold text-sm mb-2 text-gray-900">
-                      마케팅
-                    </div>
-                    <div className="ml-2">
-                      <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
-                        <input
-                          type="checkbox"
-                          checked={tempFilters.positions.includes('MARKETING')}
-                          onChange={() => handleCategoryToggle('MARKETING')}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm">전체</span>
-                      </label>
-                    </div>
-                  </div>
+              <div className="flex flex-col py-4 space-y-2">
+                {/* 개발 섹션 */}
+                <span className="font-bold text-md">개발</span>
+                <div className="flex flex-col text-[#383b41]">
+                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                    <input
+                      type="checkbox"
+                      checked={POSITION_CATEGORIES.DEV.values.every((v) =>
+                        tempFilters.positions.includes(v)
+                      )}
+                      onChange={() => handleCategoryToggle('DEV')}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-md">전체</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                    <input
+                      type="checkbox"
+                      checked={tempFilters.positions.includes('FRONT')}
+                      onChange={() => handlePositionToggle('FRONT')}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-md">프론트엔드 개발</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                    <input
+                      type="checkbox"
+                      checked={tempFilters.positions.includes('BACKEND')}
+                      onChange={() => handlePositionToggle('BACKEND')}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-md">서버·백엔드 개발</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                    <input
+                      type="checkbox"
+                      checked={tempFilters.positions.includes('APP')}
+                      onChange={() => handlePositionToggle('APP')}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-md">앱 개발</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                    <input
+                      type="checkbox"
+                      checked={tempFilters.positions.includes('DATA')}
+                      onChange={() => handlePositionToggle('DATA')}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-md">데이터 개발</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded text-[#383b41]">
+                    <input
+                      type="checkbox"
+                      checked={tempFilters.positions.includes('OTHERS')}
+                      onChange={() => handlePositionToggle('OTHERS')}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-md">기타 분야</span>
+                  </label>
                 </div>
+
+                {/* 기획 섹션 */}
+                <span className="font-bold text-md">기획</span>
+                <div className="text-[#383b41]">
+                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded text-[#383b41]">
+                    <input
+                      type="checkbox"
+                      checked={tempFilters.positions.includes('PLANNER')}
+                      onChange={() => handleCategoryToggle('PLANNER')}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-md">전체</span>
+                  </label>
+                </div>
+
+                {/* 디자인 섹션 */}
+                <span className="font-bold text-md">디자인</span>
+                <div className="text-[#383b41]">
+                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                    <input
+                      type="checkbox"
+                      checked={tempFilters.positions.includes('DESIGN')}
+                      onChange={() => handleCategoryToggle('DESIGN')}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-md">전체</span>
+                  </label>
+                </div>
+
+                {/* 마케팅 섹션 */}
+                <span className="font-bold text-md">마케팅</span>
+                <div className="text-[#383b41]">
+                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                    <input
+                      type="checkbox"
+                      checked={tempFilters.positions.includes('MARKETING')}
+                      onChange={() => handleCategoryToggle('MARKETING')}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-md">전체</span>
+                  </label>
+                </div>
+
                 <div className="flex gap-2 mt-4 pt-3 border-t border-gray-200">
                   <button
                     onClick={() => {
                       setTempFilters((prev) => ({ ...prev, positions: [] }));
                       setIsPositionOpen(false);
                     }}
-                    className="flex-1 px-3 py-1 bg-gray-200 text-gray-700 rounded text-sm hover:bg-gray-300"
+                    className="w-1/2 px-4 py-2 bg-[#f1f2f5] text-[#777f8b] text-sm font-semibold rounded-lg hover:bg-gray-300"
                   >
                     초기화
                   </button>
@@ -274,7 +254,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                       onApply(tempFilters);
                       setIsPositionOpen(false);
                     }}
-                    className="flex-1 px-3 py-1 bg-gray-700 text-white rounded text-sm hover:bg-gray-800"
+                    className="w-1/2 px-4 py-2 bg-[#484c53] text-white text-sm font-semibold rounded-lg hover:bg-gray-800"
                   >
                     적용
                   </button>
@@ -282,15 +262,17 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
               </div>
             )}
           </div>
+        </div>
 
+        <div className="flex space-x-2">
           {/* 업종 드롭다운 */}
           <div className="relative">
             <button
               onClick={() => setIsDomainOpen(!isDomainOpen)}
-              className={`px-4 py-2 bg-white border rounded hover:bg-gray-50 flex items-center gap-2 ${
+              className={`px-4 py-2 border rounded-lg hover:bg-gray-50 flex items-center gap-2 text-[#484c53] text-sm ${
                 hasDomainFilter
-                  ? 'border-gray-500 font-bold text-gray-700'
-                  : 'border-gray-300'
+                  ? 'border-[#9fa9b9] font-semibold bg-[#f1f2f5]'
+                  : 'border-[#f1f2f5]'
               }`}
             >
               {getDomainLabel()}
@@ -311,10 +293,10 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
               </svg>
             </button>
             {isDomainOpen && (
-              <div className="absolute top-full left-0 mt-2 bg-white border border-gray-300 rounded shadow-lg p-4 z-10 min-w-[200px]">
-                <div className="space-y-2">
+              <div className="absolute top-full left-0 bg-white rounded-xl shadow-lg p-4 z-10 min-w-[200px]">
+                <div className="flex flex-col text-[#383b41]">
                   {/* 전체 체크박스 */}
-                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                  <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2">
                     <input
                       type="checkbox"
                       checked={tempFilters.domains.length === 0}
@@ -341,13 +323,13 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                     </label>
                   ))}
                 </div>
-                <div className="flex gap-2 mt-4 pt-3 border-t border-gray-200">
+                <div className="w-full flex gap-2 mt-2 pt-3 place-content-end">
                   <button
                     onClick={() => {
                       setTempFilters((prev) => ({ ...prev, domains: [] }));
                       setIsDomainOpen(false);
                     }}
-                    className="flex-1 px-3 py-1 bg-gray-200 text-gray-700 rounded text-sm hover:bg-gray-300"
+                    className="px-4 py-2 bg-[#f1f2f5] text-[#777f8b] text-sm font-semibold rounded-lg hover:bg-gray-300"
                   >
                     초기화
                   </button>
@@ -356,7 +338,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                       onApply(tempFilters);
                       setIsDomainOpen(false);
                     }}
-                    className="flex-1 px-3 py-1 bg-gray-700 text-white rounded text-sm hover:bg-gray-800"
+                    className="px-4 py-2 bg-[#484c53] text-white text-sm font-semibold rounded-lg hover:bg-gray-800"
                   >
                     적용
                   </button>
@@ -369,10 +351,10 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
           <div className="relative">
             <button
               onClick={() => setIsStatusOpen(!isStatusOpen)}
-              className={`px-4 py-2 bg-white border rounded hover:bg-gray-50 flex items-center gap-2 text-sm ${
+              className={`px-4 py-2 border rounded-lg hover:bg-gray-50 flex items-center gap-2 text-[#484c53] text-sm ${
                 hasStatusFilter
-                  ? 'border-gray-500 font-bold text-gray-700'
-                  : 'border-gray-300'
+                  ? 'border-[#9fa9b9] font-semibold bg-[#f1f2f5]'
+                  : 'border-[#f1f2f5]'
               }`}
             >
               {getStatusLabel()}
@@ -393,8 +375,8 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
               </svg>
             </button>
             {isStatusOpen && (
-              <div className="absolute top-full left-0 mt-2 bg-white border border-gray-300 rounded shadow-lg p-4 z-10 min-w-[200px]">
-                <div className="space-y-2">
+              <div className="absolute top-full left-0 bg-white rounded-xl shadow-lg p-4 z-10 min-w-[200px]">
+                <div className="flex flex-col text-[#383b41]">
                   <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
                     <input
                       type="radio"
@@ -420,13 +402,13 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                     <span className="text-sm">모집중</span>
                   </label>
                 </div>
-                <div className="flex gap-2 mt-4 pt-3 border-t border-gray-200">
+                <div className="w-full flex gap-2 mt-2 pt-3 place-content-end">
                   <button
                     onClick={() => {
                       setTempFilters((prev) => ({ ...prev, isActive: false }));
                       setIsStatusOpen(false);
                     }}
-                    className="flex-1 px-3 py-1 bg-gray-200 text-gray-700 rounded text-sm hover:bg-gray-300"
+                    className="px-4 py-2 bg-[#f1f2f5] text-[#777f8b] text-sm font-semibold rounded-lg hover:bg-gray-300"
                   >
                     초기화
                   </button>
@@ -435,7 +417,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                       onApply(tempFilters);
                       setIsStatusOpen(false);
                     }}
-                    className="flex-1 px-3 py-1 bg-gray-700 text-white rounded text-sm hover:bg-gray-800"
+                    className="px-4 py-2 bg-[#484c53] text-white text-sm font-semibold rounded-lg hover:bg-gray-800"
                   >
                     적용
                   </button>
@@ -448,10 +430,10 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
           <div className="relative">
             <button
               onClick={() => setIsOrderOpen(!isOrderOpen)}
-              className={`px-4 py-2 bg-white border rounded hover:bg-gray-50 flex items-center gap-2 text-sm ${
+              className={`px-4 py-2 border rounded-lg hover:bg-gray-50 flex items-center gap-2 text-[#484c53] text-sm ${
                 hasOrderFilter
-                  ? 'border-gray-500 font-bold text-gray-700'
-                  : 'border-gray-300'
+                  ? 'border-[#9fa9b9] font-semibold bg-[#f1f2f5]'
+                  : 'border-[#f1f2f5]'
               }`}
             >
               {getOrderLabel()}
@@ -472,8 +454,8 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
               </svg>
             </button>
             {isOrderOpen && (
-              <div className="absolute top-full left-0 mt-2 bg-white border border-gray-300 rounded shadow-lg p-4 z-10 min-w-[200px]">
-                <div className="space-y-2">
+              <div className="absolute top-full left-0 bg-white rounded-xl shadow-lg p-4 z-10 min-w-[200px]">
+                <div className="flex flex-col text-[#383b41]">
                   {ORDER_OPTIONS.map((option) => (
                     <label
                       key={option.value}
@@ -495,13 +477,13 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                     </label>
                   ))}
                 </div>
-                <div className="flex gap-2 mt-4 pt-3 border-t border-gray-200">
+                <div className="w-full flex gap-2 mt-2 pt-3 place-content-end">
                   <button
                     onClick={() => {
                       setTempFilters((prev) => ({ ...prev, order: 0 }));
                       setIsOrderOpen(false);
                     }}
-                    className="flex-1 px-3 py-1 bg-gray-200 text-gray-700 rounded text-sm hover:bg-gray-300"
+                    className="px-4 py-2 bg-[#f1f2f5] text-[#777f8b] text-sm font-semibold rounded-lg hover:bg-gray-300"
                   >
                     초기화
                   </button>
@@ -510,7 +492,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
                       onApply(tempFilters);
                       setIsOrderOpen(false);
                     }}
-                    className="flex-1 px-3 py-1 bg-gray-700 text-white rounded text-sm hover:bg-gray-800"
+                    className="px-4 py-2 bg-[#484c53] text-white text-sm font-semibold rounded-lg hover:bg-gray-800"
                   >
                     적용
                   </button>
@@ -523,7 +505,7 @@ const FilterBar = ({ filters, onApply }: FilterBarProps) => {
           <div className="ml-auto">
             <button
               onClick={handleReset}
-              className="px-3 py-2 text-gray-700 hover:bg-gray-100 rounded flex items-center gap-2"
+              className="px-3 py-2 text-[#484c53] hover:bg-gray-100 rounded flex items-center gap-2"
               aria-label="필터 초기화"
             >
               <svg
