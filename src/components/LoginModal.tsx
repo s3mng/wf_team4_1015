@@ -24,11 +24,13 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
         className="bg-white rounded-lg p-6 max-w-sm w-full mx-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className='text-center'>
-        <h2 className="text-xl font-bold mb-4">찜하기를 하려면 로그인이 필요해요</h2>
-        <p className="text-gray-600 mb-6">
-          계정이 없으시다면 <br></br> 지금 바로 회원가입해보세요
-        </p>
+        <div className="text-center">
+          <h2 className="text-xl font-bold mb-4">
+            찜하기를 하려면 로그인이 필요해요
+          </h2>
+          <p className="text-gray-600 mb-6">
+            계정이 없으시다면 <br></br> 지금 바로 회원가입해보세요
+          </p>
         </div>
         <div className="flex flex-col gap-3">
           <button
