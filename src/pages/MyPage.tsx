@@ -73,7 +73,7 @@ const MyPage = () => {
 
   return (
     <div className="mx-auto flex w-full max-w-[698px] flex-col gap-10 px-6 py-[50px]">
-      <h1 className="text-2xl font-bold">마이페이지</h1>
+      <h1 className="text-3xl font-bold">마이페이지</h1>
 
       <div className="flex h-10 justify-between place-content-center">
 
