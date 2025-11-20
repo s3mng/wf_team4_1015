@@ -7,7 +7,7 @@ const ProfileTab = (props: ProfileResult) => {
   return (
     <div className="w-full flex flex-col">
       {/* TODO: Implement the profile tab */}
-      <p>프로필 탭</p>
+      <p>프로필 탭(프로필 있는 경우)</p>
     </div>
   );
 };
