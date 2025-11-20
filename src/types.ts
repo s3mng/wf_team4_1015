@@ -147,23 +147,33 @@ type ProfileLink = {
 export type ProfileRequestBody = {
   enrollYear: number;
   department: string;
-  positions: string[];
-  slogan: string;
-  explanation: string;
-  stacks: string[];
-  imageKey: string;
+  positions?: string[];
+  slogan?: string;
+  explanation?: string;
+  stacks?: string[];
+  imageKey?: string;
   cvKey: string;
-  portfolioKey: string;
-  links: ProfileLink[]
+  portfolioKey?: string;
+  links?: ProfileLink[]
 }
 
-export type ProfileResult = ProfileRequestBody & {
+export type ProfileResult = {
   id: string;
   name: string;
-  createdAt: string;
-  updatedAt: string;
-  userRole: userRole;
-  email: string
+  createdAt?: string;
+  updatedAt?: string;
+  userRole?: userRole;
+  email?: string;
+  enrollYear?: number;
+  department?: string;
+  positions?: string[];
+  slogan?: string;
+  explanation?: string;
+  stacks?: string[];
+  imageKey?: string;
+  cvKey: string;
+  portfolioKey?: string;
+  links?: ProfileLink[]
 }
 
 /* ------------------- API Error ------------------- */
