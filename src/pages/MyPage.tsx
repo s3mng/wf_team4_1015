@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import BookmarkTab from '../tabs/BookmarkTab'
+import ProfileTab from '../tabs/ProfileTab'
 
 const MyPage = () => {
   const [activeTab, setActiveTab] = useState<'bookmarks' | 'profile'>('bookmarks');
@@ -35,14 +37,10 @@ const MyPage = () => {
       {/* Tab contents */}
       <div>
         {activeTab === 'bookmarks' && (
-          <div>
-            <p>관심공고 내용</p>
-          </div>
+          <BookmarkTab />
         )}
         {activeTab === 'profile' && (
-          <div>
-            <p>내 정보 내용</p>
-          </div>
+          <ProfileTab />
         )}
       </div>
     </div>
