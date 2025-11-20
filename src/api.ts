@@ -3,6 +3,7 @@ import type {
   GetMeResult,
   GetPostsParams,
   GetPostsResult,
+  ProfileResult,
   SignInRequestBody,
   SignInResult,
   SignUpRequestBody,
@@ -77,7 +78,7 @@ async function postJson<Req, Res>(
 
 /**
  * Sends a GET request and processes the response.
- * @template Res
+ * @template Res, Params
  * @param {string} path
  * @param {getJsonOptions} options
  * @returns {Promise<Res>}
@@ -231,4 +232,15 @@ export async function removeBookmark(
     status: res.status,
     ...apiErr,
   });
+}
+
+/**
+ * @example
+ * const { name, email } = await getProfile('token-abc');
+ */
+export function getProfile(token: string): Promise<ProfileResult> {
+  return getJson<ProfileResult, void>(
+    `/api/applicant/me`,
+    { token }
+  );
 }
