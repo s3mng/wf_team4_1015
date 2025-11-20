@@ -47,7 +47,7 @@ const MyPage = () => {
     <div className="mx-auto flex w-full max-w-[698px] flex-col gap-10 px-6 py-[50px]">
       <h1 className="text-2xl font-bold">마이페이지</h1>
 
-      <div className="flex justify-between">
+      <div className="flex h-10 justify-between place-content-center">
 
         {/* Tab list */}
         <div className="flex gap-10">
