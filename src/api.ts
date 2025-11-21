@@ -3,6 +3,7 @@ import type {
   GetMeResult,
   GetPostsParams,
   GetPostsResult,
+  ProfileResult,
   SignInRequestBody,
   SignInResult,
   SignUpRequestBody,
@@ -12,17 +13,41 @@ import { encodeQueryParams } from './utils';
 
 const BASE_URL = 'https://api-internhasha.wafflestudio.com';
 
+type postJsonOptions<Body = void> = {
+  body?: Body;
+  token?: string
+}
+
+type getJsonOptions<Params = void> = {
+  params?: Params;
+  token?: string
+}
+
 /**
  * Sends a POST request and processes the response.
  * @template Req, Res
  * @param {string} path
- * @param {Req} body
+ * @param {postJsonOptions<Body>} options
  * @returns {Promise<Res>}
  */
-async function postJson<Req, Res>(path: string, body: Req): Promise<Res> {
+async function postJson<Req, Res>(
+  path: string,
+  options: postJsonOptions<Req>
+): Promise<Res> {
+  const { body, token } = options;
+
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+  
+  // Add an Authorization header if the token exists
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  
   const res = await fetch(`${BASE_URL}${path}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify(body),
   }).catch((err) => {
     console.error('Network error:', err);
@@ -52,11 +77,69 @@ async function postJson<Req, Res>(path: string, body: Req): Promise<Res> {
 }
 
 /**
+ * Sends a GET request and processes the response.
+ * @template Res, Params
+ * @param {string} path
+ * @param {getJsonOptions} options
+ * @returns {Promise<Res>}
+ */
+export async function getJson<Res, Params = void>(
+  path: string, 
+  options: getJsonOptions<Params>
+): Promise<Res> {
+  const { params, token } = options;
+
+  const queryString = params ? encodeQueryParams({ params }) : "";
+  const fetchURL = queryString
+    ? `${BASE_URL}${path}?${queryString}`
+    : `${BASE_URL}${path}`;
+
+  const headers: Record<string, string> = {
+    Accept: 'application/json',
+  };
+  
+  // Add an Authorization header if the token exists
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const res = await fetch(fetchURL, {
+    method: 'GET',
+    headers,
+  }).catch((err) => {
+    console.error('Network error:', err);
+    throw new Error('Network error');
+  });
+
+  // ok
+  if (res.ok) return (await res.json()) as Res;
+
+  // error
+  let errBody: unknown = undefined;
+  try {
+    errBody = await res.json();
+  } catch (_) {
+    _;
+  }
+
+  const apiErr: ApiError =
+    typeof errBody === 'object' && errBody !== null
+      ? (errBody as ApiError)
+      : { code: String(res.status), message: res.statusText };
+
+  throw Object.assign(new Error(`[${apiErr.code}] ${apiErr.message}`), {
+    status: res.status,
+    ...apiErr,
+  });
+}
+
+
+/**
  * @example
  * const { user, token } = await signUp();
  */
 export function signUp(req: SignUpRequestBody): Promise<SignUpResult> {
-  return postJson<SignUpRequestBody, SignUpResult>('/api/auth/user', req);
+  return postJson<SignUpRequestBody, SignUpResult>('/api/auth/user', { body: req });
 }
 
 /**
@@ -66,7 +149,7 @@ export function signUp(req: SignUpRequestBody): Promise<SignUpResult> {
 export function signIn(req: SignInRequestBody): Promise<SignInResult> {
   return postJson<SignInRequestBody, SignInResult>(
     '/api/auth/user/session',
-    req
+    { body: req }
   );
 }
 
@@ -74,38 +157,11 @@ export function signIn(req: SignInRequestBody): Promise<SignInResult> {
  * @example
  * const { id, password } = await getUserInfo();
  */
-export async function getUserInfo(token: string): Promise<GetMeResult> {
-  const res = await fetch(`${BASE_URL}/api/auth/me`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  }).catch((err) => {
-    console.error('Network error:', err);
-    throw new Error('Network error');
-  });
-
-  // ok
-  if (res.ok) return (await res.json()) as GetMeResult;
-
-  // error
-  let errBody: unknown = undefined;
-  try {
-    errBody = await res.json();
-  } catch (_) {
-    _;
-  }
-
-  const apiErr: ApiError =
-    typeof errBody === 'object' && errBody !== null
-      ? (errBody as ApiError)
-      : { code: String(res.status), message: res.statusText };
-
-  throw Object.assign(new Error(`[${apiErr.code}] ${apiErr.message}`), {
-    status: res.status,
-    ...apiErr,
-  });
+export function getUserInfo(token: string): Promise<GetMeResult> {
+  return getJson<GetMeResult>(
+    '/api/auth/me',
+    { token }
+  );
 }
 
 /**
@@ -113,93 +169,28 @@ export async function getUserInfo(token: string): Promise<GetMeResult> {
  * const { posts, paginator } = await getPosts({ positions: ['FRONT'], isActive: false });
  * const { posts, paginator } = await getPosts({ positions: ['FRONT'] }, 'token-abc');
  */
-export async function getPosts(
+export function getPosts(
   params: GetPostsParams = {},
   token?: string
 ): Promise<GetPostsResult> {
-  const queryString = encodeQueryParams({ params });
-  const url = queryString
-    ? `${BASE_URL}/api/post?${queryString}`
-    : `${BASE_URL}/api/post`;
-
-  const headers: Record<string, string> = {
-    Accept: 'application/json',
-  };
-
-  // 토큰이 있으면 Authorization 헤더 추가
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
-  const res = await fetch(url, {
-    method: 'GET',
-    headers,
-  }).catch((err) => {
-    console.error('Network error:', err);
-    throw new Error('Network error');
-  });
-
-  // ok
-  if (res.ok) return (await res.json()) as GetPostsResult;
-
-  // error
-  let errBody: unknown = undefined;
-  try {
-    errBody = await res.json();
-  } catch (_) {
-    _;
-  }
-
-  const apiErr: ApiError =
-    typeof errBody === 'object' && errBody !== null
-      ? (errBody as ApiError)
-      : { code: String(res.status), message: res.statusText };
-
-  throw Object.assign(new Error(`[${apiErr.code}] ${apiErr.message}`), {
-    status: res.status,
-    ...apiErr,
-  });
+  return getJson<GetPostsResult, GetPostsParams>(
+    '/api/post',
+    { params, token }
+  );
 }
 
 /**
  * @example
  * await addBookmark('post-id-123', 'token-abc');
  */
-export async function addBookmark(
+export function addBookmark(
   postId: string,
   token: string
 ): Promise<void> {
-  const res = await fetch(`${BASE_URL}/api/post/${postId}/bookmark`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  }).catch((err) => {
-    console.error('Network error:', err);
-    throw new Error('Network error');
-  });
-
-  // ok
-  if (res.ok) return;
-
-  // error
-  let errBody: unknown = undefined;
-  try {
-    errBody = await res.json();
-  } catch (_) {
-    _;
-  }
-
-  const apiErr: ApiError =
-    typeof errBody === 'object' && errBody !== null
-      ? (errBody as ApiError)
-      : { code: String(res.status), message: res.statusText };
-
-  throw Object.assign(new Error(`[${apiErr.code}] ${apiErr.message}`), {
-    status: res.status,
-    ...apiErr,
-  });
+  return postJson<void, void>(
+    `/api/post/${postId}/bookmark`,
+    { token }
+  );
 }
 
 /**
@@ -241,4 +232,15 @@ export async function removeBookmark(
     status: res.status,
     ...apiErr,
   });
+}
+
+/**
+ * @example
+ * const { name, email } = await getProfile('token-abc');
+ */
+export function getProfile(token: string): Promise<ProfileResult> {
+  return getJson<ProfileResult, void>(
+    `/api/applicant/me`,
+    { token }
+  );
 }
