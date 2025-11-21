@@ -85,7 +85,7 @@ async function postJson<Req, Res>(
  * @param {getJsonOptions} options
  * @returns {Promise<Res>}
  */
-export async function getJson<Res, Params = void>(
+async function getJson<Res, Params = void>(
   path: string,
   options: getJsonOptions<Params>
 ): Promise<Res> {
