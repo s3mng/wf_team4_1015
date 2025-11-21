@@ -48,7 +48,8 @@ function positionToKorean(positionType: PositionType): string {
     case 'MARKETING':
       return '마케터';
     default:
-      throw new Error('Unknown position type');
+      console.error('Unknown position type:', positionType);
+      return '포지션 정보 없음';
   }
 }
 

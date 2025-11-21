@@ -70,6 +70,7 @@ const MainPage = () => {
 
         // 로그인 상태면 토큰 포함
         const token = Cookies.get('token');
+        console.log('[FetchPosts] Token:', token ? `${token.substring(0, 20)}...` : 'none');
 
         const result = await getPosts(
           {
@@ -82,6 +83,7 @@ const MainPage = () => {
           },
           token
         );
+        console.log('[FetchPosts] Received posts:', result.posts.map(p => ({ id: p.id, company: p.companyName, isBookmarked: p.isBookmarked })));
         setPosts(result.posts);
         setLastPage(result.paginator.lastPage);
       } catch (err) {
@@ -161,22 +163,53 @@ const MainPage = () => {
       return;
     }
 
+    console.log('[Bookmark] Toggle clicked:', { postId, currentState, newState: !currentState });
+
+    // 낙관적 업데이트: 먼저 UI 상태 변경
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId ? { ...post, isBookmarked: !currentState } : post
+      )
+    );
+
     try {
       // 북마크 상태 토글
       if (currentState) {
+        console.log('[Bookmark] Calling removeBookmark API');
         await removeBookmark(postId, token);
+        console.log('[Bookmark] removeBookmark API success');
       } else {
+        console.log('[Bookmark] Calling addBookmark API');
         await addBookmark(postId, token);
+        console.log('[Bookmark] addBookmark API success');
       }
+    } catch (err: any) {
+      console.error('[Bookmark] API failed:', err);
 
-      // 로컬 상태 업데이트
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.id === postId ? { ...post, isBookmarked: !currentState } : post
-        )
-      );
-    } catch (err) {
-      console.error('Bookmark toggle failed:', err);
+      // 409 Conflict 에러면 서버 상태와 반대로 설정 (서버가 이미 그 상태라는 의미)
+      if (err?.message?.includes('already bookmarked')) {
+        console.log('[Bookmark] Already bookmarked on server, syncing to true');
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId ? { ...post, isBookmarked: true } : post
+          )
+        );
+      } else if (err?.message?.includes('not bookmarked') || err?.message?.includes('not found')) {
+        console.log('[Bookmark] Not bookmarked on server, syncing to false');
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId ? { ...post, isBookmarked: false } : post
+          )
+        );
+      } else {
+        // 다른 에러면 롤백
+        console.log('[Bookmark] Other error, rolling back');
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId ? { ...post, isBookmarked: currentState } : post
+          )
+        );
+      }
     }
   };
 
