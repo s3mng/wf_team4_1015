@@ -22,7 +22,13 @@ const dummyProfile: ProfileResult = {
     "string"
   ],
   slogan: "string",
-  explanation: "string",
+  explanation: `- 게임 업계에서 4년 동안 게임 기획자로서 활동했습니다.
+  - 비즈니스 로직에 대해 고민하고, 재사용성을 높이기 위한 방법을 연구합니다.
+  - React, TypeScript, Next.js, React Native 환경에서 개발을 진행했습니다.
+  - Redux Toolkit, zustand, Jotai 등 다양한 상태 관리를 다룬 경험이 있습니다.
+  - JIRA, Trello, Figma, Slack, Notion 등을 이용한 커뮤니케이션이 가능합니다.
+  - Sentry 등의 에러 트래킹 시스템을 이용해 크로스 브라우징 이슈를 해결한 경험이 있습니다.
+  - Firebase를 이용한 BaaS 환경에서 개인 프로젝트를 개발한 경험이 있습니다.`,
   stacks: [
     "string"
   ],
