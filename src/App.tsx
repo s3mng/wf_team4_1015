@@ -3,6 +3,7 @@ import Header from './components/Header';
 import { AuthProvider } from './contexts/AuthContext';
 import MainPage from './pages/MainPage';
 import MyPage from './pages/MyPage';
+import ProfileCreatePage from './pages/ProfileCreatePage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 
@@ -18,6 +19,7 @@ const App = () => {
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/sign-in" element={<SignInPage />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route path="/profile/create" element={<ProfileCreatePage />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>

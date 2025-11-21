@@ -1,5 +1,7 @@
 import type {
   ApiError,
+  ApiErrorResponse,
+  ApplicantProfile,
   GetMeResult,
   GetPostsParams,
   GetPostsResult,
@@ -8,6 +10,7 @@ import type {
   SignInResult,
   SignUpRequestBody,
   SignUpResult,
+  UpdateApplicantProfileRequest,
 } from './types';
 import { encodeQueryParams } from './utils';
 
@@ -243,14 +246,61 @@ export function getBookmarks(token: string): Promise<GetPostsResult> {
     `/api/post/bookmarks`,
     { token }
   );
+ * const profile = await getApplicantProfile('token-abc');
+ */
+
+/**
+ * @example
+ * await updateApplicantProfile('token-abc', { enrollYear: 2021, department: '컴공,경영', cvKey: 'path' });
+ */
+export async function updateApplicantProfile(
+  token: string,
+  data: UpdateApplicantProfileRequest
+): Promise<void> {
+  const res = await fetch(`${BASE_URL}/api/applicant/me`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  }).catch((err) => {
+    console.error('Network error:', err);
+    throw new Error('Network error');
+  });
+
+  // ok
+  if (res.ok) return;
+
+  // error
+  let errBody: unknown = undefined;
+  try {
+    errBody = await res.json();
+  } catch (_) {
+    _;
+  }
+
+  const apiErr: ApiErrorResponse =
+    typeof errBody === 'object' && errBody !== null
+      ? (errBody as ApiErrorResponse)
+      : {
+          timestamp: new Date().toISOString(),
+          code: String(res.status),
+          message: res.statusText,
+        };
+
+  throw Object.assign(new Error(`[${apiErr.code}] ${apiErr.message}`), {
+    status: res.status,
+    ...apiErr,
+  });
 }
 
 /**
  * @example
- * const { name, email } = await getProfile('token-abc');
+ * const profile = await getApplicantProfile('token-abc');
  */
-export function getProfile(token: string): Promise<ProfileResult> {
-  return getJson<ProfileResult, void>(
+export function getApplicantProfile(token: string): Promise<ApplicantProfile> {
+  return getJson<ApplicantProfile, void>(
     `/api/applicant/me`,
     { token }
   );
