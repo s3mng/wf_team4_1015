@@ -1,8 +1,31 @@
 import type { ApplicantProfile } from '../types';
 
+function makeDeptString(department: string) {
+  const deptArr = department.split(',');
+  let output: string = "";
+
+  for (let i = 0; i < deptArr.length; i++) {
+    output += deptArr[i].trim();
+    if (i > 0)
+      output += '(다전공)';
+    if (i < deptArr.length - 1)
+      output += ' · ';
+  }
+
+  return output;
+}
+
+function makeYearString(enrollYear: number) {
+  const yearString = enrollYear.toString();
+  return yearString.slice(-2);
+}
+
 const ProfileTab = (props: ApplicantProfile) => {
   const optionalFieldExist =
     props.positions || props.explanation || props.stacks || props.links;
+
+  const deptString = props.department ? makeDeptString(props.department) : '무전공';
+  const yearString = props.enrollYear ? makeYearString(props.enrollYear) : '무';
 
   return (
     <div className="py-2 flex flex-col gap-10">
@@ -11,7 +34,7 @@ const ProfileTab = (props: ApplicantProfile) => {
       <div className="flex flex-col text-md font-medium text-[#5f656f] gap-2">
         <p>{props.email}</p>
         <p>
-          {props.department} {props.enrollYear}학번
+          {deptString} {yearString}학번
         </p>
       </div>
 

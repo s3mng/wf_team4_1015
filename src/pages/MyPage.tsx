@@ -21,22 +21,25 @@ const MyPage = () => {
   const [profile, setProfile] = useState<ApplicantProfile | null>(null);
 
   useEffect(() => {
-    const fetchBookmarks = async () => {
-      const token = Cookies.get('token');
-      if (!token) {
-        throw new Error('Token does not exist!');
-      }
+    if (activeTab === 'bookmarks') {
+      const fetchBookmarks = async () => {
+        const token = Cookies.get('token');
+        if (!token) {
+          navigate('/login');
+          return;
+        } 
 
-      try {
-        const result = await getBookmarks(token);
-        setBookmarks(result);
-      } catch (_) {
-        setBookmarks(null);
-      }
-    };
+        try {
+          const result = await getBookmarks(token);
+          setBookmarks(result);
+        } catch (_) {
+          setBookmarks(null);
+        }
+      };
 
-    fetchBookmarks();
-  }, []);
+      fetchBookmarks();
+    }
+  }, [activeTab, navigate]);
 
   useEffect(() => {
     if (activeTab === 'profile') {
@@ -119,12 +122,18 @@ const MyPage = () => {
 
       {/* Tab contents */}
       <div>
-        {activeTab === 'bookmarks' &&
-          (bookmarks && bookmarks.posts ? (
+        {activeTab === 'bookmarks' && (
+          bookmarks === null ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="text-gray-500">로딩 중...</div>
+            </div>
+          ) : 
+          bookmarks.posts && bookmarks.posts.length > 0 ? (
             <BookmarkTab {...bookmarks} />
           ) : (
             <NoBookmarkTab />
-          ))}
+          )
+        )}
 
         {activeTab === 'profile' && profileStatus === 'loading' && (
           <div className="flex justify-center items-center py-20">

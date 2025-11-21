@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 const NoBookmarkTab = () => {
   const navigate = useNavigate();
 
-  // NOTE: '/make-profile' page doesn't exist yet
   const handleMakeProfile = () => {
     navigate('/');
   };
