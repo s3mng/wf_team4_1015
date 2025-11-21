@@ -5,7 +5,6 @@ import type {
   GetMeResult,
   GetPostsParams,
   GetPostsResult,
-  ProfileResult,
   SignInRequestBody,
   SignInResult,
   SignUpRequestBody,
