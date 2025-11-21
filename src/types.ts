@@ -182,3 +182,29 @@ export type ApiError = {
   code: string;
   message: string;
 };
+
+export type ApiErrorResponse = {
+  timestamp: string;
+  message: string;
+  code: string;
+  details?: Record<string, unknown>;
+};
+
+/* ------------- GET /api/applicant/me ------------- */
+
+export type ApplicantProfile = {
+  id: string;
+  name: string;
+  email: string;
+  enrollYear?: number;
+  department?: string;
+  cvKey?: string;
+};
+
+/* ------------- PUT /api/applicant/me ------------- */
+
+export type UpdateApplicantProfileRequest = {
+  enrollYear: number;
+  department: string;
+  cvKey: string;
+};
