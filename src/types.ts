@@ -144,9 +144,15 @@ type ProfileLink = {
   link: string
 }
 
-export type ProfileRequestBody = {
-  enrollYear: number;
-  department: string;
+export type ApplicantProfile = {
+  id: string;
+  name: string;
+  createdAt?: string;
+  updatedAt?: string;
+  userRole?: userRole;
+  email?: string;
+  enrollYear?: number;
+  department?: string;
   positions?: string[];
   slogan?: string;
   explanation?: string;
@@ -157,15 +163,11 @@ export type ProfileRequestBody = {
   links?: ProfileLink[]
 }
 
-export type ProfileResult = {
-  id: string;
-  name: string;
-  createdAt?: string;
-  updatedAt?: string;
-  userRole?: userRole;
-  email?: string;
-  enrollYear?: number;
-  department?: string;
+/* ------------- PUT /api/applicant/me ------------- */
+
+export type UpdateApplicantProfileRequest = {
+  enrollYear: number;
+  department: string;
   positions?: string[];
   slogan?: string;
   explanation?: string;
@@ -188,23 +190,4 @@ export type ApiErrorResponse = {
   message: string;
   code: string;
   details?: Record<string, unknown>;
-};
-
-/* ------------- GET /api/applicant/me ------------- */
-
-export type ApplicantProfile = {
-  id: string;
-  name: string;
-  email: string;
-  enrollYear?: number;
-  department?: string;
-  cvKey?: string;
-};
-
-/* ------------- PUT /api/applicant/me ------------- */
-
-export type UpdateApplicantProfileRequest = {
-  enrollYear: number;
-  department: string;
-  cvKey: string;
 };
