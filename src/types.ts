@@ -141,8 +141,8 @@ export type Post = {
 
 type ProfileLink = {
   description: string;
-  link: string
-}
+  link: string;
+};
 
 export type ApplicantProfile = {
   id: string;
@@ -160,8 +160,8 @@ export type ApplicantProfile = {
   imageKey?: string;
   cvKey: string;
   portfolioKey?: string;
-  links?: ProfileLink[]
-}
+  links?: ProfileLink[];
+};
 
 /* ------------- PUT /api/applicant/me ------------- */
 
@@ -175,8 +175,8 @@ export type UpdateApplicantProfileRequest = {
   imageKey?: string;
   cvKey: string;
   portfolioKey?: string;
-  links?: ProfileLink[]
-}
+  links?: ProfileLink[];
+};
 
 /* ------------------- API Error ------------------- */
 

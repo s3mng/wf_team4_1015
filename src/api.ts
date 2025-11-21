@@ -17,13 +17,13 @@ const BASE_URL = 'https://api-internhasha.wafflestudio.com';
 
 type postJsonOptions<Body = void> = {
   body?: Body;
-  token?: string
-}
+  token?: string;
+};
 
 type getJsonOptions<Params = void> = {
   params?: Params;
-  token?: string
-}
+  token?: string;
+};
 
 /**
  * Sends a POST request and processes the response.
@@ -41,12 +41,12 @@ async function postJson<Req, Res>(
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
-  
+
   // Add an Authorization header if the token exists
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
-  
+
   const res = await fetch(`${BASE_URL}${path}`, {
     method: 'POST',
     headers,
@@ -86,12 +86,12 @@ async function postJson<Req, Res>(
  * @returns {Promise<Res>}
  */
 export async function getJson<Res, Params = void>(
-  path: string, 
+  path: string,
   options: getJsonOptions<Params>
 ): Promise<Res> {
   const { params, token } = options;
 
-  const queryString = params ? encodeQueryParams({ params }) : "";
+  const queryString = params ? encodeQueryParams({ params }) : '';
   const fetchURL = queryString
     ? `${BASE_URL}${path}?${queryString}`
     : `${BASE_URL}${path}`;
@@ -99,7 +99,7 @@ export async function getJson<Res, Params = void>(
   const headers: Record<string, string> = {
     Accept: 'application/json',
   };
-  
+
   // Add an Authorization header if the token exists
   if (token) {
     headers.Authorization = `Bearer ${token}`;
@@ -135,13 +135,14 @@ export async function getJson<Res, Params = void>(
   });
 }
 
-
 /**
  * @example
  * const { user, token } = await signUp();
  */
 export function signUp(req: SignUpRequestBody): Promise<SignUpResult> {
-  return postJson<SignUpRequestBody, SignUpResult>('/api/auth/user', { body: req });
+  return postJson<SignUpRequestBody, SignUpResult>('/api/auth/user', {
+    body: req,
+  });
 }
 
 /**
@@ -149,10 +150,9 @@ export function signUp(req: SignUpRequestBody): Promise<SignUpResult> {
  * const { user, token } = await signIn();
  */
 export function signIn(req: SignInRequestBody): Promise<SignInResult> {
-  return postJson<SignInRequestBody, SignInResult>(
-    '/api/auth/user/session',
-    { body: req }
-  );
+  return postJson<SignInRequestBody, SignInResult>('/api/auth/user/session', {
+    body: req,
+  });
 }
 
 /**
@@ -160,10 +160,7 @@ export function signIn(req: SignInRequestBody): Promise<SignInResult> {
  * const { id, password } = await getUserInfo();
  */
 export function getUserInfo(token: string): Promise<GetMeResult> {
-  return getJson<GetMeResult>(
-    '/api/auth/me',
-    { token }
-  );
+  return getJson<GetMeResult>('/api/auth/me', { token });
 }
 
 /**
@@ -175,24 +172,18 @@ export function getPosts(
   params: GetPostsParams = {},
   token?: string
 ): Promise<GetPostsResult> {
-  return getJson<GetPostsResult, GetPostsParams>(
-    '/api/post',
-    { params, token }
-  );
+  return getJson<GetPostsResult, GetPostsParams>('/api/post', {
+    params,
+    token,
+  });
 }
 
 /**
  * @example
  * await addBookmark('post-id-123', 'token-abc');
  */
-export function addBookmark(
-  postId: string,
-  token: string
-): Promise<void> {
-  return postJson<void, void>(
-    `/api/post/${postId}/bookmark`,
-    { token }
-  );
+export function addBookmark(postId: string, token: string): Promise<void> {
+  return postJson<void, void>(`/api/post/${postId}/bookmark`, { token });
 }
 
 /**
@@ -241,10 +232,7 @@ export async function removeBookmark(
  * const { posts, paginator } = await getBookmarks('token-abc');
  */
 export function getBookmarks(token: string): Promise<GetPostsResult> {
-  return getJson<GetPostsResult, void>(
-    `/api/post/bookmarks`,
-    { token }
-  );
+  return getJson<GetPostsResult, void>(`/api/post/bookmarks`, { token });
 }
 
 /**
@@ -298,8 +286,5 @@ export async function updateApplicantProfile(
  * const profile = await getApplicantProfile('token-abc');
  */
 export function getApplicantProfile(token: string): Promise<ApplicantProfile> {
-  return getJson<ApplicantProfile, void>(
-    `/api/applicant/me`,
-    { token }
-  );
+  return getJson<ApplicantProfile, void>(`/api/applicant/me`, { token });
 }
