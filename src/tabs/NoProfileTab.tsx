@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 const NoProfileTab = () => {
   const navigate = useNavigate();
 
-  // NOTE: '/make-profile' page doesn't exist yet
   const handleMakeProfile = () => {
-    navigate('/make-profile');
+    navigate('/profile/create');
   };
 
   return (
