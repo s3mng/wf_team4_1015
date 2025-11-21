@@ -2,9 +2,13 @@ import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getApplicantProfile } from '../api';
-import type { ApplicantProfile } from '../types';
+import BookmarkTab from '../tabs/BookmarkTab';
+import NoProfileTab from '../tabs/NoProfileTab';
+import ProfileTab from '../tabs/ProfileTab';
+import type { ApplicantProfile, ProfileResult } from '../types';
 
 const MyPage = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'bookmarks' | 'profile'>(
     'bookmarks'
   );
@@ -12,7 +16,6 @@ const MyPage = () => {
     'loading' | 'exists' | 'not_found'
   >('loading');
   const [profile, setProfile] = useState<ApplicantProfile | null>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (activeTab === 'profile') {
@@ -51,18 +54,18 @@ const MyPage = () => {
   };
 
   return (
-    <div className="py-20 px-6">
-      <h1 className="text-2xl font-bold mb-6">마이페이지</h1>
+    <div className="mx-auto flex w-full max-w-[698px] flex-col gap-10 px-6 py-[50px]">
+      <h1 className="text-3xl font-bold">마이페이지</h1>
 
-      {/* 탭 메뉴 */}
-      <div className="flex justify-between items-center border-b border-gray-300 mb-6">
-        <div className="flex gap-4">
+      <div className="flex h-10 justify-between place-content-center">
+        {/* Tab list */}
+        <div className="flex gap-10">
           <button
             onClick={() => setActiveTab('bookmarks')}
-            className={`pb-2 px-4 transition-colors ${
+            className={`transition-colors text-lg ${
               activeTab === 'bookmarks'
-                ? 'border-b-2 border-black text-black font-bold'
-                : 'text-gray-500 hover:text-gray-700 font-normal'
+                ? 'pb-0.5 border-b-2 border-black text-black font-bold'
+                : 'pb-1 font-medium'
             }`}
           >
             관심공고
@@ -70,20 +73,21 @@ const MyPage = () => {
 
           <button
             onClick={() => setActiveTab('profile')}
-            className={`pb-2 px-4 transition-colors ${
+            className={`transition-colors text-lg ${
               activeTab === 'profile'
-                ? 'border-b-2 border-black text-black font-bold'
-                : 'text-gray-500 hover:text-gray-700 font-normal'
+                ? 'pb-0.5 border-b-2 border-black text-black font-bold'
+                : 'pb-1 font-medium'
             }`}
           >
             내 정보
           </button>
         </div>
 
-        {activeTab === 'profile' && (
+        {/* Profile make/edit button */}
+        {activeTab === 'profile' && profileStatus !== 'loading' && (
           <button
             onClick={handleCreateProfile}
-            className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors text-sm"
+            className="px-4 py-2 bg-[#e8ebef] text-black text-md rounded-lg hover:bg-gray-300"
           >
             {profileStatus === 'not_found'
               ? '내 프로필 생성'
@@ -92,58 +96,22 @@ const MyPage = () => {
         )}
       </div>
 
-      {/* 탭 콘텐츠 */}
+      {/* Tab contents */}
       <div>
-        {activeTab === 'bookmarks' && (
-          <div>
-            <p>관심공고 내용</p>
+        {activeTab === 'bookmarks' && <BookmarkTab />}
+
+        {activeTab === 'profile' && profileStatus === 'loading' && (
+          <div className="flex justify-center items-center py-20">
+            <div className="text-gray-500">로딩 중...</div>
           </div>
         )}
-        {activeTab === 'profile' && (
-          <div>
-            {profileStatus === 'loading' && (
-              <div className="flex justify-center items-center py-20">
-                <div className="text-gray-500">로딩 중...</div>
-              </div>
-            )}
 
-            {profileStatus === 'not_found' && (
-              <div className="flex flex-col items-center justify-center py-20">
-                <h2 className="text-2xl font-bold mb-6">
-                  아직 프로필이 등록되지 않았어요!
-                </h2>
-                <p className="text-gray-600 mb-8">
-                  기업에 소개할 나의 정보를 작성해서 나를 소개해보세요.
-                </p>
-                <button
-                  onClick={handleCreateProfile}
-                  className="bg-gray-800 text-white px-8 py-3 rounded-lg hover:bg-gray-700 transition-colors"
-                >
-                  지금 바로 프로필 작성하기
-                </button>
-              </div>
-            )}
+        {activeTab === 'profile' && profileStatus === 'exists' && profile && (
+          <ProfileTab {...(profile as unknown as ProfileResult)} />
+        )}
 
-            {profileStatus === 'exists' && profile && (
-              <div className="max-w-2xl">
-                <div className="py-8">
-                  {/* 이름 */}
-                  <h2 className="text-3xl font-bold mb-6">{profile.name}</h2>
-
-                  {/* 이메일 */}
-                  <div className="text-gray-700 mb-2">{profile.email}</div>
-
-                  {/* 학과 정보 */}
-                  {profile.department && (
-                    <div className="text-gray-600">
-                      {profile.department.split(',').join(' · ')}{' '}
-                      {profile.enrollYear && `${profile.enrollYear}학번`}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
+        {activeTab === 'profile' && profileStatus === 'not_found' && (
+          <NoProfileTab />
         )}
       </div>
     </div>

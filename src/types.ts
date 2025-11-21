@@ -137,6 +137,45 @@ export type Post = {
   coffeeChatCount: number;
 };
 
+/* ------------- GET /api/applicant/me ------------- */
+
+type ProfileLink = {
+  description: string;
+  link: string
+}
+
+export type ProfileRequestBody = {
+  enrollYear: number;
+  department: string;
+  positions?: string[];
+  slogan?: string;
+  explanation?: string;
+  stacks?: string[];
+  imageKey?: string;
+  cvKey: string;
+  portfolioKey?: string;
+  links?: ProfileLink[]
+}
+
+export type ProfileResult = {
+  id: string;
+  name: string;
+  createdAt?: string;
+  updatedAt?: string;
+  userRole?: userRole;
+  email?: string;
+  enrollYear?: number;
+  department?: string;
+  positions?: string[];
+  slogan?: string;
+  explanation?: string;
+  stacks?: string[];
+  imageKey?: string;
+  cvKey: string;
+  portfolioKey?: string;
+  links?: ProfileLink[]
+}
+
 /* ------------------- API Error ------------------- */
 
 export type ApiError = {
