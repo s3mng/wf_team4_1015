@@ -239,47 +239,15 @@ export async function removeBookmark(
 
 /**
  * @example
+ * const { posts, paginator } = await getBookmarks('token-abc');
+ */
+export function getBookmarks(token: string): Promise<GetPostsResult> {
+  return getJson<GetPostsResult, void>(
+    `/api/post/bookmarks`,
+    { token }
+  );
  * const profile = await getApplicantProfile('token-abc');
  */
-export async function getApplicantProfile(
-  token: string
-): Promise<ApplicantProfile> {
-  const res = await fetch(`${BASE_URL}/api/applicant/me`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  }).catch((err) => {
-    console.error('Network error:', err);
-    throw new Error('Network error');
-  });
-
-  // ok
-  if (res.ok) return (await res.json()) as ApplicantProfile;
-
-  // error
-  let errBody: unknown = undefined;
-  try {
-    errBody = await res.json();
-  } catch (_) {
-    _;
-  }
-
-  const apiErr: ApiErrorResponse =
-    typeof errBody === 'object' && errBody !== null
-      ? (errBody as ApiErrorResponse)
-      : {
-          timestamp: new Date().toISOString(),
-          code: String(res.status),
-          message: res.statusText,
-        };
-
-  throw Object.assign(new Error(`[${apiErr.code}] ${apiErr.message}`), {
-    status: res.status,
-    ...apiErr,
-  });
-}
 
 /**
  * @example
@@ -329,10 +297,10 @@ export async function updateApplicantProfile(
 
 /**
  * @example
- * const { name, email } = await getProfile('token-abc');
+ * const profile = await getApplicantProfile('token-abc');
  */
-export function getProfile(token: string): Promise<ProfileResult> {
-  return getJson<ProfileResult, void>(
+export function getApplicantProfile(token: string): Promise<ApplicantProfile> {
+  return getJson<ApplicantProfile, void>(
     `/api/applicant/me`,
     { token }
   );

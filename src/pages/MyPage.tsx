@@ -1,21 +1,39 @@
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getApplicantProfile } from '../api';
-import BookmarkTab from '../tabs/BookmarkTab';
+import { getBookmarks, getApplicantProfile } from '../api';
+import BookmarkTab from '../tabs/BookmarkTab'
+import NoBookmarkTab from '../tabs/NoBookmarkTab';
 import NoProfileTab from '../tabs/NoProfileTab';
-import ProfileTab from '../tabs/ProfileTab';
-import type { ApplicantProfile, ProfileResult } from '../types';
+import ProfileTab from '../tabs/ProfileTab'
+import type { ApplicantProfile, GetPostsResult } from '../types';
 
 const MyPage = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'bookmarks' | 'profile'>(
-    'bookmarks'
-  );
-  const [profileStatus, setProfileStatus] = useState<
-    'loading' | 'exists' | 'not_found'
-  >('loading');
+  
+  const [activeTab, setActiveTab] = useState<'bookmarks' | 'profile'>('bookmarks');
+  const [bookmarks, setBookmarks] = useState<GetPostsResult | null>(null);
+  const [profileStatus, setProfileStatus] = useState<'loading' | 'exists' | 'not_found'>('loading');
   const [profile, setProfile] = useState<ApplicantProfile | null>(null);
+
+  useEffect(() => {
+    const fetchBookmarks = async () => {
+      const token = Cookies.get('token');
+      if (!token) {
+        throw new Error("Token does not exist!")
+      }
+
+      try {
+        const result = await getBookmarks(token);
+        setBookmarks(result);
+      } catch (_) {
+        setBookmarks(null);
+      }
+    };
+
+    fetchBookmarks();
+  }, []);
+
 
   useEffect(() => {
     if (activeTab === 'profile') {
@@ -98,7 +116,11 @@ const MyPage = () => {
 
       {/* Tab contents */}
       <div>
-        {activeTab === 'bookmarks' && <BookmarkTab />}
+        {activeTab === 'bookmarks' && (
+          (bookmarks && bookmarks.posts)
+          ? <BookmarkTab {...bookmarks} />
+          : <NoBookmarkTab />
+        )}
 
         {activeTab === 'profile' && profileStatus === 'loading' && (
           <div className="flex justify-center items-center py-20">
