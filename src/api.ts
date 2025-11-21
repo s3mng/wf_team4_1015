@@ -1,5 +1,7 @@
 import type {
   ApiError,
+  ApiErrorResponse,
+  ApplicantProfile,
   GetMeResult,
   GetPostsParams,
   GetPostsResult,
@@ -7,6 +9,7 @@ import type {
   SignInResult,
   SignUpRequestBody,
   SignUpResult,
+  UpdateApplicantProfileRequest,
 } from './types';
 import { encodeQueryParams } from './utils';
 
@@ -236,6 +239,96 @@ export async function removeBookmark(
     typeof errBody === 'object' && errBody !== null
       ? (errBody as ApiError)
       : { code: String(res.status), message: res.statusText };
+
+  throw Object.assign(new Error(`[${apiErr.code}] ${apiErr.message}`), {
+    status: res.status,
+    ...apiErr,
+  });
+}
+
+/**
+ * @example
+ * const profile = await getApplicantProfile('token-abc');
+ */
+export async function getApplicantProfile(
+  token: string
+): Promise<ApplicantProfile> {
+  const res = await fetch(`${BASE_URL}/api/applicant/me`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }).catch((err) => {
+    console.error('Network error:', err);
+    throw new Error('Network error');
+  });
+
+  // ok
+  if (res.ok) return (await res.json()) as ApplicantProfile;
+
+  // error
+  let errBody: unknown = undefined;
+  try {
+    errBody = await res.json();
+  } catch (_) {
+    _;
+  }
+
+  const apiErr: ApiErrorResponse =
+    typeof errBody === 'object' && errBody !== null
+      ? (errBody as ApiErrorResponse)
+      : {
+          timestamp: new Date().toISOString(),
+          code: String(res.status),
+          message: res.statusText,
+        };
+
+  throw Object.assign(new Error(`[${apiErr.code}] ${apiErr.message}`), {
+    status: res.status,
+    ...apiErr,
+  });
+}
+
+/**
+ * @example
+ * await updateApplicantProfile('token-abc', { enrollYear: 2021, department: '컴공,경영', cvKey: 'path' });
+ */
+export async function updateApplicantProfile(
+  token: string,
+  data: UpdateApplicantProfileRequest
+): Promise<void> {
+  const res = await fetch(`${BASE_URL}/api/applicant/me`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  }).catch((err) => {
+    console.error('Network error:', err);
+    throw new Error('Network error');
+  });
+
+  // ok
+  if (res.ok) return;
+
+  // error
+  let errBody: unknown = undefined;
+  try {
+    errBody = await res.json();
+  } catch (_) {
+    _;
+  }
+
+  const apiErr: ApiErrorResponse =
+    typeof errBody === 'object' && errBody !== null
+      ? (errBody as ApiErrorResponse)
+      : {
+          timestamp: new Date().toISOString(),
+          code: String(res.status),
+          message: res.statusText,
+        };
 
   throw Object.assign(new Error(`[${apiErr.code}] ${apiErr.message}`), {
     status: res.status,
