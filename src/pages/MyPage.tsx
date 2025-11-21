@@ -1,13 +1,12 @@
+import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getBookmarks, getProfile } from '../api';
 import BookmarkTab from '../tabs/BookmarkTab'
+import NoBookmarkTab from '../tabs/NoBookmarkTab';
 import NoProfileTab from '../tabs/NoProfileTab';
 import ProfileTab from '../tabs/ProfileTab'
-import type { ProfileResult } from '../types';
-
-// TODO: Uncomment these lines later
-// import Cookies from 'js-cookie';
-// import { getProfile } from '../api';
+import type { GetPostsResult, ProfileResult } from '../types';
 
 const dummyProfile: ProfileResult = {
   id: "string",
@@ -45,13 +44,33 @@ const dummyProfile: ProfileResult = {
 
 const MyPage = () => {
   const navigate = useNavigate();
+  
   const [activeTab, setActiveTab] = useState<'bookmarks' | 'profile'>('bookmarks');
+  const [bookmarks, setBookmarks] = useState<GetPostsResult | null>(null);
   const [profile, setProfile] = useState<ProfileResult | null>(null);
 
   // NOTE: '/make-profile' page doesn't exist yet
   const handleMakeProfile = () => {
     navigate('/make-profile');
   }
+
+  useEffect(() => {
+    const fetchBookmarks = async () => {
+      const token = Cookies.get('token');
+      if (!token) {
+        throw new Error("Token does not exist!")
+      }
+
+      try {
+        const result = await getBookmarks(token);
+        setBookmarks(result);
+      } catch (_) {
+        setBookmarks(null);
+      }
+    };
+
+    fetchBookmarks();
+  }, []);
 
   // TODO: Uncomment the lines below after the profile feature implemented
   // useEffect(() => {
@@ -122,15 +141,15 @@ const MyPage = () => {
       {/* Tab contents */}
       <div>
         {activeTab === 'bookmarks' && (
-          <BookmarkTab />
+          (bookmarks && bookmarks.posts)
+          ? <BookmarkTab {...bookmarks} />
+          : <NoBookmarkTab />
         )}
 
-        {activeTab === 'profile' && profile && (
-          <ProfileTab {...profile} />
-        )}
-
-        {activeTab === 'profile' && !profile && (
-          <NoProfileTab />
+        {activeTab === 'profile' && (
+          profile
+          ? <ProfileTab {...profile} />
+          : <NoProfileTab />
         )}
       </div>
     </div>
