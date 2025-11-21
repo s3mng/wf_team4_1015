@@ -246,8 +246,7 @@ export function getBookmarks(token: string): Promise<GetPostsResult> {
     `/api/post/bookmarks`,
     { token }
   );
- * const profile = await getApplicantProfile('token-abc');
- */
+}
 
 /**
  * @example
