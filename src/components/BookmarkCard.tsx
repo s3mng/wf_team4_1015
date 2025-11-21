@@ -56,10 +56,6 @@ function getBookmarkSource(isBookmarked: boolean): string {
   return `/bookmark_${isBookmarked ? 'on' : 'off'}.svg`;
 }
 
-function getDDayColour(dDayMessage: string): string {
-  return dDayMessage === '마감' ? '#ff0000' : '#2343ce';
-}
-
 const BookmarkCard = (props: BookmarkCardProps) => {
   const [isBookmarked, setIsBookmarked] = useState(true);
   const [bookmarkSource, setBookmarkSource] = useState('/bookmark_on.svg');
@@ -105,9 +101,15 @@ const BookmarkCard = (props: BookmarkCardProps) => {
           <span className="text-md font-medium">
             {positionToKorean(props.positionType)}
           </span>
-          <span className={`text-sm text-[${getDDayColour(dDayMessage)}]`}>
-            {dDayMessage}
-          </span>
+          {dDayMessage === '마감' ? (
+            <span className={`text-sm text-[#ff0000]`}>
+              {dDayMessage}
+            </span>
+          ) : (
+            <span className={`text-sm text-[#2343ce]`}>
+              {dDayMessage}
+            </span>
+          )}
         </div>
       </div>
     </div>
