@@ -129,7 +129,7 @@ const MyPage = () => {
         )}
 
         {activeTab === 'profile' && profileStatus === 'exists' && profile && (
-          <ProfileTab {...(profile as unknown as ProfileResult)} />
+          <ProfileTab {...profile} />
         )}
 
         {activeTab === 'profile' && profileStatus === 'not_found' && (

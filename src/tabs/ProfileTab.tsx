@@ -1,6 +1,6 @@
-import type { ProfileResult } from "../types";
+import type { ApplicantProfile } from "../types";
 
-const ProfileTab = (props: ProfileResult) => {
+const ProfileTab = (props: ApplicantProfile) => {
   const optionalFieldExist = props.positions || props.explanation || props.stacks || props.links;
   
   return (
