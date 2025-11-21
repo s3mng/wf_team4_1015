@@ -57,7 +57,22 @@ async function postJson<Req, Res>(
   });
 
   // ok
-  if (res.ok) return (await res.json()) as Res;
+  if (res.ok) {
+    // 응답이 비어있으면 json() 호출하지 않음
+    const contentType = res.headers.get('content-type');
+    const contentLength = res.headers.get('content-length');
+
+    if (contentLength === '0' || !contentType?.includes('application/json')) {
+      return undefined as Res;
+    }
+
+    const text = await res.text();
+    if (!text) {
+      return undefined as Res;
+    }
+
+    return JSON.parse(text) as Res;
+  }
 
   // error
   let errBody: unknown = undefined;
