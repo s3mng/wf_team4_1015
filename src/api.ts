@@ -236,6 +236,17 @@ export async function removeBookmark(
 
 /**
  * @example
+ * const { posts, paginator } = await getBookmarks('token-abc');
+ */
+export function getBookmarks(token: string): Promise<GetPostsResult> {
+  return getJson<GetPostsResult, void>(
+    `/api/post/bookmarks`,
+    { token }
+  );
+}
+
+/**
+ * @example
  * const { name, email } = await getProfile('token-abc');
  */
 export function getProfile(token: string): Promise<ProfileResult> {
