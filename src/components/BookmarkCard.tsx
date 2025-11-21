@@ -1,14 +1,14 @@
 import Cookies from 'js-cookie';
-import { useEffect, useState } from "react";
-import { addBookmark, removeBookmark } from "../api";
-import type { PositionType } from "../types";
+import { useEffect, useState } from 'react';
+import { addBookmark, removeBookmark } from '../api';
+import type { PositionType } from '../types';
 
 type BookmarkCardProps = {
   id: string;
   companyName: string;
   employmentEndDate: string | null;
-  positionType: PositionType
-}
+  positionType: PositionType;
+};
 
 function getDDayMessage(endDateString: string | null): string {
   if (!endDateString) return '상시모집';
@@ -31,29 +31,29 @@ function getDDayMessage(endDateString: string | null): string {
 
 function positionToKorean(positionType: PositionType): string {
   switch (positionType) {
-    case "FRONT":
-      return "프론트엔드 개발자";
-    case "APP":
-      return "앱 개발자";
-    case "BACKEND":
-      return "서버·백엔드 개발자";
-    case "DATA":
-      return "데이터 개발자";
-    case "OTHERS":
-      return "기타 개발자";
-    case "DESIGN":
-      return "디자이너";
-    case "PLANNER":
-      return "기획자";
-    case "MARKETING":
-      return "마케터";
+    case 'FRONT':
+      return '프론트엔드 개발자';
+    case 'APP':
+      return '앱 개발자';
+    case 'BACKEND':
+      return '서버·백엔드 개발자';
+    case 'DATA':
+      return '데이터 개발자';
+    case 'OTHERS':
+      return '기타 개발자';
+    case 'DESIGN':
+      return '디자이너';
+    case 'PLANNER':
+      return '기획자';
+    case 'MARKETING':
+      return '마케터';
     default:
-      throw new Error("Unknown position type");
+      throw new Error('Unknown position type');
   }
 }
 
 function getBookmarkSource(isBookmarked: boolean): string {
-  return `/bookmark_${isBookmarked ? 'on' : 'off'}.svg`
+  return `/bookmark_${isBookmarked ? 'on' : 'off'}.svg`;
 }
 
 function getDDayColour(dDayMessage: string): string {
@@ -62,13 +62,12 @@ function getDDayColour(dDayMessage: string): string {
 
 const BookmarkCard = (props: BookmarkCardProps) => {
   const [isBookmarked, setIsBookmarked] = useState(true);
-  const [bookmarkSource, setBookmarkSource] = useState("/bookmark_on.svg");
+  const [bookmarkSource, setBookmarkSource] = useState('/bookmark_on.svg');
   const dDayMessage = getDDayMessage(props.employmentEndDate);
 
   const handleBookmarkClick = () => {
     const token = Cookies.get('token');
-    if (!token)
-      throw new Error("Token does not exist!");
+    if (!token) throw new Error('Token does not exist!');
 
     if (isBookmarked) {
       removeBookmark(props.id, token);

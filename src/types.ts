@@ -141,23 +141,10 @@ export type Post = {
 
 type ProfileLink = {
   description: string;
-  link: string
-}
+  link: string;
+};
 
-export type ProfileRequestBody = {
-  enrollYear: number;
-  department: string;
-  positions?: string[];
-  slogan?: string;
-  explanation?: string;
-  stacks?: string[];
-  imageKey?: string;
-  cvKey: string;
-  portfolioKey?: string;
-  links?: ProfileLink[]
-}
-
-export type ProfileResult = {
+export type ApplicantProfile = {
   id: string;
   name: string;
   createdAt?: string;
@@ -173,8 +160,23 @@ export type ProfileResult = {
   imageKey?: string;
   cvKey: string;
   portfolioKey?: string;
-  links?: ProfileLink[]
-}
+  links?: ProfileLink[];
+};
+
+/* ------------- PUT /api/applicant/me ------------- */
+
+export type UpdateApplicantProfileRequest = {
+  enrollYear: number;
+  department: string;
+  positions?: string[];
+  slogan?: string;
+  explanation?: string;
+  stacks?: string[];
+  imageKey?: string;
+  cvKey: string;
+  portfolioKey?: string;
+  links?: ProfileLink[];
+};
 
 /* ------------------- API Error ------------------- */
 
@@ -188,23 +190,4 @@ export type ApiErrorResponse = {
   message: string;
   code: string;
   details?: Record<string, unknown>;
-};
-
-/* ------------- GET /api/applicant/me ------------- */
-
-export type ApplicantProfile = {
-  id: string;
-  name: string;
-  email: string;
-  enrollYear?: number;
-  department?: string;
-  cvKey?: string;
-};
-
-/* ------------- PUT /api/applicant/me ------------- */
-
-export type UpdateApplicantProfileRequest = {
-  enrollYear: number;
-  department: string;
-  cvKey: string;
 };

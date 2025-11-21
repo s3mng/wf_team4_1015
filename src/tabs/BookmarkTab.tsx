@@ -1,5 +1,5 @@
-import BookmarkCard from "../components/BookmarkCard";
-import type { GetPostsResult } from "../types";
+import BookmarkCard from '../components/BookmarkCard';
+import type { GetPostsResult } from '../types';
 
 const BookmarkTab = (props: GetPostsResult) => {
   return (

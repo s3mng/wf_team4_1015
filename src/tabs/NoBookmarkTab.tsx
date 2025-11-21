@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 
-const NoBookmarkTab = () => {  
+const NoBookmarkTab = () => {
   const navigate = useNavigate();
 
   // NOTE: '/make-profile' page doesn't exist yet
   const handleMakeProfile = () => {
     navigate('/');
-  }
-  
+  };
+
   return (
     <div className="px-4 py-8 flex flex-col gap-6 place-content-center">
       <h2 className="text-center text-2xl font-bold">
